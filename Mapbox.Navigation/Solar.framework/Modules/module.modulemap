@@ -1,0 +1,4 @@
+framework module Solar {
+    header "Solar-Swift.h"
+    requires objc
+}

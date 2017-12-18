@@ -1,0 +1,11 @@
+framework module OSRMTextInstructions {
+  umbrella header "OSRMTextInstructions.h"
+
+  export *
+  module * { export * }
+}
+
+module OSRMTextInstructions.Swift {
+    header "OSRMTextInstructions-Swift.h"
+    requires objc
+}
