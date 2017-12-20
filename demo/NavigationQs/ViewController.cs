@@ -1,10 +1,12 @@
 ﻿using System;
 
 using UIKit;
-using Mapbox.Directions;
-//using Naxam.MapboxNavigation.iOS;
+using MapboxDirections;
 using CoreLocation;
 using Mapbox;
+using MapboxNavigation;
+using MapboxCoreNavigation;
+using MapboxMobileEvents;
 
 namespace NavigationQs
 {
@@ -29,42 +31,45 @@ namespace NavigationQs
             routingBtn.SetTitle("Start", UIControlState.Normal);
             routingBtn.AddTarget(DidTapOnRoutingBtn, UIControlEvent.TouchUpInside);
 
-                        
-         
+            View.AddSubview(routingBtn);
 
-//Directions.shared.calculate(options) {
-//                (waypoints, routes, error) in
-//    guard let route = routes?.first else { return }
+            var x = new MMEAPIClient();
 
-//                let viewController = NavigationViewController(for: route)
-//                    self.present(viewController, animated: true, completion: nil)
-//}
+            //Directions.shared.calculate(options) {
+            //                (waypoints, routes, error) in
+            //    guard let route = routes?.first else { return }
+
+            //                let viewController = NavigationViewController(for: route)
+            //                    self.present(viewController, animated: true, completion: nil)
+            //}
         }
 
         private void DidTapOnRoutingBtn(object sender, EventArgs e)
         {
-            var origin = new MBWaypoint(new CLLocationCoordinate2D(38.9131752, -77.0324047), 
-            -1, 
+            var origin = new MBWaypoint(new CLLocationCoordinate2D(38.9131752, -77.0324047),
+            -1,
             "Mapbox");
+
+            var destination = new MBWaypoint(new CLLocationCoordinate2D(38.8977, -77.0365),
+                                        -1,
+                                             "White House");
+            var options = new MBNavigationRouteOptions(
+                new MBWaypoint[] { origin, destination },
+                MBDirectionsProfileIdentifier.AutomobileAvoidingTraffic
+            );
+            MBDirections.SharedDirections.CalculateDirectionsWithOptions(
+            options,
+            (waypoints, route, error) =>
+            {
+
+            });
         }
 
         public override void ViewDidAppear(bool animated)
         {
             base.ViewDidAppear(animated);
-           
-            //var destination = new MBWaypoint(new CLLocationCoordinate2D(38.8977, -77.0365),
-                                        //-1,
-                                             //"White House");
-            //var options = new MBNavigationRouteOptions(
-            //    new MBWaypoint[] { origin, destination },
-            //    MBDirectionsProfileIdentifier.AutomobileAvoidingTraffic
-            //);
-            //MBDirections.SharedDirections.CalculateDirectionsWithOptions(
-            //options,
-            //(waypoints, route, error) =>
-            //{
 
-            //});
+
         }
 
         public override void ViewDidLayoutSubviews()

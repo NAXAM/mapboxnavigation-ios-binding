@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5B4765B7-CE40-49C5-A858-96D9ED74398D}</ProjectGuid>
+    <ProjectGuid>{41C7D51E-DEF5-4765-A608-D3153C8082B4}</ProjectGuid>
     <ProjectTypeGuids>{8FFB629D-F513-41CE-95D2-7ECE97B6EEEC};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
-    <RootNamespace>Naxam.MapboxNavigation.iOS</RootNamespace>
-    <AssemblyName>Naxam.MapboxNavigation.iOS</AssemblyName>
+    <RootNamespace>Naxam.MapboxCoreNavigation.iOS</RootNamespace>
+    <AssemblyName>Naxam.MapboxCoreNavigation.iOS</AssemblyName>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -31,18 +31,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="Xamarin.iOS" />
-    <Reference Include="Naxam.Mapbox.iOS">
-      <HintPath>..\packages\Naxam.Mapbox.iOS.3.7.0.1\lib\Xamarin.iOS10\Naxam.Mapbox.iOS.dll</HintPath>
-    </Reference>
-    <Reference Include="Xbindings.AWSCore.iOS">
-      <HintPath>..\packages\Xbindings.AWSCore.iOS.2.6.8\lib\Xamarin.iOS10\Xbindings.AWSCore.iOS.dll</HintPath>
-    </Reference>
-    <Reference Include="Xbindings.AWSPolly.iOS">
-      <HintPath>..\packages\Xbindings.AWSPolly.iOS.2.6.8\lib\Xamarin.iOS10\Xbindings.AWSPolly.iOS.dll</HintPath>
-    </Reference>
-    <Reference Include="Ricardo.SDWebImage.iOS">
-      <HintPath>..\packages\Ricardo.SDWebImage.iOS.4.2.2.1\lib\Xamarin.iOS10\Ricardo.SDWebImage.iOS.dll</HintPath>
-    </Reference>
     <Reference Include="Xbindings.MapboxMobileEvents.iOS">
       <HintPath>..\packages\Xbindings.MapboxMobileEvents.iOS.0.11.0\lib\Xamarin.iOS10\Xbindings.MapboxMobileEvents.iOS.dll</HintPath>
     </Reference>
@@ -57,29 +45,27 @@
     <ObjcBindingCoreSource Include="Structs.cs" />
   </ItemGroup>
   <ItemGroup>
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <NativeReference Include="..\frameworks\MapboxNavigation.framework">
-      <Kind>Framework</Kind>
-      <SmartLink>False</SmartLink>
-    </NativeReference>
-    <NativeReference Include="..\frameworks\Solar.framework">
-      <Kind>Framework</Kind>
-      <SmartLink>False</SmartLink>
-    </NativeReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Naxam.MapboxDirections.iOS\Naxam.MapboxDirections.iOS.csproj">
       <Project>{96B62B16-1F72-439B-AF5D-0CFE2F91EC59}</Project>
       <Name>Naxam.MapboxDirections.iOS</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Naxam.MapboxCoreNavigation.iOS\Naxam.MapboxCoreNavigation.iOS.csproj">
-      <Project>{41C7D51E-DEF5-4765-A608-D3153C8082B4}</Project>
-      <Name>Naxam.MapboxCoreNavigation.iOS</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <NativeReference Include="..\frameworks\MapboxCoreNavigation.framework">
+      <Kind>Framework</Kind>
+      <SmartLink>False</SmartLink>
+    </NativeReference>
+    <NativeReference Include="..\frameworks\OSRMTextInstructions.framework">
+      <Kind>Framework</Kind>
+      <SmartLink>False</SmartLink>
+    </NativeReference>
+    <NativeReference Include="..\frameworks\Turf.framework">
+      <Kind>Framework</Kind>
+      <SmartLink>False</SmartLink>
+    </NativeReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.ObjCBinding.CSharp.targets" />
 </Project>

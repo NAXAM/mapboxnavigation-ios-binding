@@ -5,6 +5,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NavigationQs", "demo\Naviga
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Naxam.MapboxNavigation.iOS", "Naxam.MapboxNavigation.iOS\Naxam.MapboxNavigation.iOS.csproj", "{5B4765B7-CE40-49C5-A858-96D9ED74398D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Naxam.MapboxDirections.iOS", "Naxam.MapboxDirections.iOS\Naxam.MapboxDirections.iOS.csproj", "{96B62B16-1F72-439B-AF5D-0CFE2F91EC59}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Naxam.MapboxCoreNavigation.iOS", "Naxam.MapboxCoreNavigation.iOS\Naxam.MapboxCoreNavigation.iOS.csproj", "{41C7D51E-DEF5-4765-A608-D3153C8082B4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "demo", "demo", "{41E72820-4213-4382-A037-F89509254A4E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|iPhoneSimulator = Debug|iPhoneSimulator
@@ -29,5 +35,24 @@ Global
 		{5B4765B7-CE40-49C5-A858-96D9ED74398D}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{5B4765B7-CE40-49C5-A858-96D9ED74398D}.Debug|iPhone.ActiveCfg = Debug|Any CPU
 		{5B4765B7-CE40-49C5-A858-96D9ED74398D}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{96B62B16-1F72-439B-AF5D-0CFE2F91EC59}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{96B62B16-1F72-439B-AF5D-0CFE2F91EC59}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{96B62B16-1F72-439B-AF5D-0CFE2F91EC59}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{96B62B16-1F72-439B-AF5D-0CFE2F91EC59}.Release|iPhone.Build.0 = Release|Any CPU
+		{96B62B16-1F72-439B-AF5D-0CFE2F91EC59}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{96B62B16-1F72-439B-AF5D-0CFE2F91EC59}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{96B62B16-1F72-439B-AF5D-0CFE2F91EC59}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{96B62B16-1F72-439B-AF5D-0CFE2F91EC59}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{41C7D51E-DEF5-4765-A608-D3153C8082B4}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{41C7D51E-DEF5-4765-A608-D3153C8082B4}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{41C7D51E-DEF5-4765-A608-D3153C8082B4}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{41C7D51E-DEF5-4765-A608-D3153C8082B4}.Release|iPhone.Build.0 = Release|Any CPU
+		{41C7D51E-DEF5-4765-A608-D3153C8082B4}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{41C7D51E-DEF5-4765-A608-D3153C8082B4}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{41C7D51E-DEF5-4765-A608-D3153C8082B4}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{41C7D51E-DEF5-4765-A608-D3153C8082B4}.Debug|iPhone.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{35431F2F-A310-49C5-BDAE-D2671214A83A} = {41E72820-4213-4382-A037-F89509254A4E}
 	EndGlobalSection
 EndGlobal
