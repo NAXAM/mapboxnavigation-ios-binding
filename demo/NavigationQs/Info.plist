@@ -37,8 +37,7 @@
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
 	<key>MGLMapboxAccessToken</key>
-	<string>pk.eyJ1IjoiaG9uZ2hhIiwiYSI6ImNpemR6dzZ3ZDB4czQzMm9lbTExejA5d3EifQ.FhhVGMXscRld1KGaquiIGw
-</string>
+	<string>pk.eyJ1IjoiaG9uZ2hhIiwiYSI6ImNpemR6dzZ3ZDB4czQzMm9lbTExejA5d3EifQ.FhhVGMXscRld1KGaquiIGw</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We need your location</string>
 </dict>

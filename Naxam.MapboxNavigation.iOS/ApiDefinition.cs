@@ -1,5 +1,6 @@
 ﻿using System;
 using AVFoundation;
+using CoreAnimation;
 using CoreGraphics;
 using CoreLocation;
 using Foundation;
@@ -12,8 +13,9 @@ using UIKit;
 namespace MapboxNavigation
 {
     // @interface MGLNavigationAdditions
+    [Category]
     [BaseType(typeof(MGLMapView))]
-    interface MGLNavigationAdditions : ICLLocationManagerDelegate
+    interface MGLNavigationAdditions
     {
         // -(void)mapViewDidFinishRenderingFrameFullyRendered:(id)fullyRendered;
         [Export("mapViewDidFinishRenderingFrameFullyRendered:")]
@@ -21,7 +23,7 @@ namespace MapboxNavigation
 
         // @property (readonly, nonatomic) int * _Nullable displayLink;
         [NullAllowed, Export("displayLink")]
-        unsafe NSString DisplayLink { get; set; }
+        CADisplayLink DisplayLink();
     }
 
     // @interface MBStylableLabel : UILabel
@@ -53,7 +55,7 @@ namespace MapboxNavigation
     }
 
     // @interface BaseInstructionsBannerView : UIControl
-    [BaseType(typeof(UIControl))]
+    [BaseType(typeof(UIControl), Name = "_TtC16MapboxNavigation26BaseInstructionsBannerView")]
     interface BaseInstructionsBannerView
     {
 
@@ -781,18 +783,6 @@ namespace MapboxNavigation
         [Export("initWithRoute:directions:style:locationManager:")]
         [DesignatedInitializer]
         IntPtr Constructor(MBRoute route, MBDirections directions, [NullAllowed] MBStyle[] styles, [NullAllowed] MBNavigationLocationManager locationManager);
-
-        // -(void)viewDidLoad;
-        [Export("viewDidLoad")]
-        void ViewDidLoad();
-
-        // -(void)viewWillAppear:(BOOL)animated;
-        [Export("viewWillAppear:")]
-        void ViewWillAppear(bool animated);
-
-        // -(void)viewWillDisappear:(BOOL)animated;
-        [Export("viewWillDisappear:")]
-        void ViewWillDisappear(bool animated);
     }
 
     // @interface MapboxNavigation_Swift_660 (MBNavigationViewController)
@@ -1142,7 +1132,7 @@ namespace MapboxNavigation
 
     // @interface MBStepsViewController : UIViewController
     [BaseType(typeof(UIViewController))]
-    partial interface MBStepsViewController
+    partial interface MBStepsViewController: IUITableViewDelegate,IUITableViewDataSource
     {
         // -(void)viewDidLoad;
         [Export("viewDidLoad")]
@@ -1155,38 +1145,38 @@ namespace MapboxNavigation
 
     }
 
-    // @interface MapboxNavigation_Swift_920 (MBStepsViewController) <UITableViewDelegate>
-    partial interface MBStepsViewController : IUITableViewDelegate
-    {
-        // -(void)tableView:(UITableView * _Nonnull)tableView didSelectRowAtIndexPath:(NSIndexPath * _Nonnull)indexPath;
-        [Export("tableView:didSelectRowAtIndexPath:")]
-        void RowSelected(UITableView tableView, NSIndexPath indexPath);
-    }
+    //// @interface MapboxNavigation_Swift_920 (MBStepsViewController) <UITableViewDelegate>
+    //partial interface MBStepsViewController : IUITableViewDelegate
+    //{
+    //    // -(void)tableView:(UITableView * _Nonnull)tableView didSelectRowAtIndexPath:(NSIndexPath * _Nonnull)indexPath;
+    //    [Export("tableView:didSelectRowAtIndexPath:")]
+    //    void RowSelected(UITableView tableView, NSIndexPath indexPath);
+    //}
 
-    // @interface MapboxNavigation_Swift_925 (MBStepsViewController) <UITableViewDataSource>
-    partial interface MBStepsViewController : IUITableViewDataSource
-    {
-        // -(NSInteger)numberOfSectionsInTableView:(UITableView * _Nonnull)tableView __attribute__((warn_unused_result));
-        [Export("numberOfSectionsInTableView:")]
-        nint NumberOfSections(UITableView tableView);
+    //// @interface MapboxNavigation_Swift_925 (MBStepsViewController) <UITableViewDataSource>
+    //partial interface MBStepsViewController : IUITableViewDataSource
+    //{
+    //    // -(NSInteger)numberOfSectionsInTableView:(UITableView * _Nonnull)tableView __attribute__((warn_unused_result));
+    //    [Export("numberOfSectionsInTableView:")]
+    //    nint NumberOfSections(UITableView tableView);
 
-        // -(NSInteger)tableView:(UITableView * _Nonnull)tableView numberOfRowsInSection:(NSInteger)section __attribute__((warn_unused_result));
-        [Export("tableView:numberOfRowsInSection:")]
-        nint RowsInSection(UITableView tableView, nint section);
+    //    // -(NSInteger)tableView:(UITableView * _Nonnull)tableView numberOfRowsInSection:(NSInteger)section __attribute__((warn_unused_result));
+    //    [Export("tableView:numberOfRowsInSection:")]
+    //    nint RowsInSection(UITableView tableView, nint section);
 
-        // -(CGFloat)tableView:(UITableView * _Nonnull)tableView heightForRowAtIndexPath:(NSIndexPath * _Nonnull)indexPath __attribute__((warn_unused_result));
-        [Export("tableView:heightForRowAtIndexPath:")]
-        nfloat TableView(UITableView tableView, NSIndexPath indexPath);
+    //    // -(CGFloat)tableView:(UITableView * _Nonnull)tableView heightForRowAtIndexPath:(NSIndexPath * _Nonnull)indexPath __attribute__((warn_unused_result));
+    //    [Export("tableView:heightForRowAtIndexPath:")]
+    //    nfloat TableView(UITableView tableView, NSIndexPath indexPath);
 
-        // -(UITableViewCell * _Nonnull)tableView:(UITableView * _Nonnull)tableView cellForRowAtIndexPath:(NSIndexPath * _Nonnull)indexPath __attribute__((warn_unused_result));
-        [Export("tableView:cellForRowAtIndexPath:")]
-        UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath);
+    //    // -(UITableViewCell * _Nonnull)tableView:(UITableView * _Nonnull)tableView cellForRowAtIndexPath:(NSIndexPath * _Nonnull)indexPath __attribute__((warn_unused_result));
+    //    [Export("tableView:cellForRowAtIndexPath:")]
+    //    UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath);
 
-        // -(NSString * _Nullable)tableView:(UITableView * _Nonnull)tableView titleForHeaderInSection:(NSInteger)section __attribute__((warn_unused_result));
-        [Export("tableView:titleForHeaderInSection:")]
-        [return: NullAllowed]
-        string TitleForHeader(UITableView tableView, nint section);
-    }
+    //    // -(NSString * _Nullable)tableView:(UITableView * _Nonnull)tableView titleForHeaderInSection:(NSInteger)section __attribute__((warn_unused_result));
+    //    [Export("tableView:titleForHeaderInSection:")]
+    //    [return: NullAllowed]
+    //    string TitleForHeader(UITableView tableView, nint section);
+    //}
 
     // @interface MBStyleKitMarker : NSObject
     [BaseType(typeof(NSObject))]
@@ -1285,10 +1275,6 @@ namespace MapboxNavigation
         [Export("shadowColor", ArgumentSemantic.Strong)]
         UIColor ShadowColor { get; set; }
 
-
-        // -(void)updateWithLocation:(CLLocation * _Nonnull)location pitch:(CGFloat)pitch direction:(CLLocationDegrees)direction animated:(BOOL)animated tracksUserCourse:(BOOL)tracksUserCourse;
-        [Export("updateWithLocation:pitch:direction:animated:tracksUserCourse:")]
-        void UpdateWithLocation(CLLocation location, nfloat pitch, double direction, bool animated, bool tracksUserCourse);
     }
 
     // @protocol MBVoiceControllerDelegate
