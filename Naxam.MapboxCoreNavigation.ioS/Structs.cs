@@ -26,6 +26,7 @@ namespace MapboxCoreNavigation
         MissingExit = 6,
         RoutingError = 7,
         ConfusingInstruction = 8,
-        ReportTraffic = 9
+        ReportTraffic = 9,
+        MapIssue = 10
     }
 }

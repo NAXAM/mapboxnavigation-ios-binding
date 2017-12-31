@@ -200,8 +200,6 @@ SWIFT_MODULE_NAMESPACE_PUSH("MapboxCoreNavigation")
 
 
 
-
-
 @class NSCoder;
 
 /// Provides appropriately formatted, localized descriptions of linear distances.
@@ -248,6 +246,8 @@ typedef SWIFT_ENUM_NAMED(NSInteger, MBFeedbackType, "FeedbackType") {
   MBFeedbackTypeConfusingInstruction = 8,
 /// Identifies the feedback as a place where traffic should have been reported.
   MBFeedbackTypeReportTraffic = 9,
+/// Identifies the feedback as a general map issue.
+  MBFeedbackTypeMapIssue = 10,
 };
 
 
@@ -282,6 +282,20 @@ SWIFT_CLASS_NAMED("NavigationRouteOptions")
 /// <a href="https://www.mapbox.com/mapbox-navigation-ios/directions/0.10.1/Classes/RouteOptions.html">RouteOptions</a>
 - (nonnull instancetype)initWithCoordinates:(NSArray<NSValue *> * _Nonnull)coordinates profileIdentifier:(MBDirectionsProfileIdentifier _Nullable)profileIdentifier;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)decoder OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+/// <code>NavigationSettings</code> provides a wrapper for UserDefaults.
+/// Properties are prefixed and before they are stored in UserDefaults.standard.
+SWIFT_CLASS_NAMED("NavigationSettings")
+@interface MBNavigationSettings : NSObject
+/// The volume that the voice controller will use.
+/// This volume is relative to the system’s volume where 1.0 is same volume as the system.
+@property (nonatomic) float voiceVolume;
+/// Indicates whether the voice controller should be muted or not.
+@property (nonatomic) BOOL voiceMuted;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
+- (void)observeValueForKeyPath:(NSString * _Nullable)keyPath ofObject:(id _Nullable)object change:(NSDictionary<NSKeyValueChangeKey, id> * _Nullable)change context:(void * _Nullable)context;
 @end
 
 
@@ -418,6 +432,12 @@ SWIFT_PROTOCOL_NAMED("RouteControllerDelegate")
 /// \param locations The locations that were received from the associated location manager.
 ///
 - (void)routeController:(MBRouteController * _Nonnull)routeController didUpdateLocations:(NSArray<CLLocation *> * _Nonnull)locations;
+/// Called when the route controller arrives at a waypoint.
+/// \param waypoint The waypoint that the controller has arrived at.
+///
+/// \param finalDestination A boolean flag that signals that the waypoint is the final destination.
+///
+- (void)routeController:(MBRouteController * _Nonnull)routeController didArriveAtWaypoint:(MBWaypoint * _Nonnull)waypoint;
 @end
 
 @class MBRouteLeg;
@@ -505,17 +525,6 @@ SWIFT_CLASS_NAMED("RouteProgress")
 
 
 
-@class NSString;
-
-SWIFT_CLASS_NAMED("RouteStepFormatter")
-@interface MBRouteStepFormatter : NSFormatter
-/// Return an instruction as a <code>String</code>.
-- (NSString * _Nullable)stringForObjectValue:(id _Nullable)obj SWIFT_WARN_UNUSED_RESULT;
-- (BOOL)getObjectValue:(id _Nullable * _Nullable)obj forString:(NSString * _Nonnull)string errorDescription:(NSString * _Nullable * _Nullable)error SWIFT_WARN_UNUSED_RESULT;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
-@end
-
 @class MBIntersection;
 @class MBSpokenInstruction;
 
@@ -546,7 +555,7 @@ SWIFT_CLASS_NAMED("RouteStepProgress")
 @property (nonatomic, readonly, strong) MBIntersection * _Nullable upcomingIntersection;
 /// Index representing the current intersection.
 @property (nonatomic) NSInteger intersectionIndex;
-/// Index into <code>step.instructionsSpokenAlongStep</code> representing the current instruction.
+/// Index into <code>step.instructionsSpokenAlongStep</code> representing the current spoken instruction.
 @property (nonatomic) NSInteger spokenInstructionIndex;
 /// Current Instruction for the user’s progress along a step.
 @property (nonatomic, readonly, strong) MBSpokenInstruction * _Nullable currentSpokenInstruction;
@@ -558,6 +567,8 @@ SWIFT_CLASS_NAMED("RouteStepProgress")
 /// The route will be replaced upon a <code>RouteControllerDidReroute</code> notification.
 SWIFT_CLASS_NAMED("SimulatedLocationManager")
 @interface MBSimulatedLocationManager : MBNavigationLocationManager
+/// Specify the multiplier to use when calculating speed based on the RouteLeg’s <code>expectedSegmentTravelTimes</code>.
+@property (nonatomic) double speedMultiplier;
 @property (nonatomic, readonly, strong) CLLocation * _Nullable location;
 /// Initalizes a new <code>SimulatedLocationManager</code> with the given route.
 /// \param route The initial route.
@@ -576,15 +587,6 @@ SWIFT_CLASS_NAMED("SimulatedLocationManager")
 
 
 
-
-
-/// Formatter for creating visual instructions.
-SWIFT_CLASS_NAMED("VisualInstructionFormatter")
-@interface MBVisualInstructionFormatter : NSObject
-/// Creates the optimal text to be displayed given a <code>RouteLeg</code> and <code>RouteStep</code>.
-- (NSString * _Nullable)stringWithLeg:(MBRouteLeg * _Nullable)leg step:(MBRouteStep * _Nullable)step SWIFT_WARN_UNUSED_RESULT;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-@end
 
 SWIFT_MODULE_NAMESPACE_POP
 #pragma clang diagnostic pop

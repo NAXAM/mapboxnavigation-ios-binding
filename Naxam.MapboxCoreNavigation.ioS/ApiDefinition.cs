@@ -62,6 +62,10 @@ namespace MapboxCoreNavigation
         [Field ("MBRouteControllerDidFindFasterRouteKey", "__Internal")]
         NSString DidFindFasterRouteKey { get; }
 
+        // extern NSString *const MBNavigationSettingsDidChange;
+        [Field ("MBNavigationSettingsDidChange", "__Internal")]
+        NSString SettingsDidChange { get; }
+
         // extern NSString *const MBErrorDomain;
         [Field ("MBErrorDomain", "__Internal")]
         NSString MBErrorDomain { get; }
@@ -117,6 +121,26 @@ namespace MapboxCoreNavigation
         // -(instancetype _Nonnull)initWithCoordinates:(NSArray<NSValue *> * _Nonnull)coordinates profileIdentifier:(id)profileIdentifier;
         [Export ("initWithCoordinates:profileIdentifier:")]
         IntPtr Constructor (NSValue[] coordinates, NSObject profileIdentifier);
+    }
+
+// @interface MBNavigationSettings : NSObject
+    [BaseType(typeof(NSObject))]
+    interface MBNavigationSettings
+    {
+        // /// The volume that the voice controller will use.
+        // /// This volume is relative to the system’s volume where 1.0 is same volume as the system.
+        // @property (nonatomic) float voiceVolume;
+        [Export ("voiceVolume")]
+        float VoiceVolume { get; set; }
+        // /// Indicates whether the voice controller should be muted or not.
+        // @property (nonatomic) BOOL voiceMuted;
+        [Export ("voiceMuted")]
+        bool VoiceMuted { get; set; }
+
+        // - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+        // - (void)observeValueForKeyPath:(NSString * _Nullable)keyPath ofObject:(id _Nullable)object change:(NSDictionary<NSKeyValueChangeKey, id> * _Nullable)change context:(void * _Nullable)context;
+        [Export ("observeValueForKeyPath:ofObject:change:context:")]
+        void ObserveValueForKeyPath (NSString keyPath, NSObject owner, NSDictionary change, [NullAllowed]NSObject context);
     }
 
     // @interface MBReplayLocationManager : MBNavigationLocationManager
@@ -252,6 +276,15 @@ namespace MapboxCoreNavigation
         // @optional -(void)routeController:(MBRouteController * _Nonnull)routeController didUpdateLocations:(NSArray<CLLocation *> * _Nonnull)locations;
         [Export ("routeController:didUpdateLocations:")]
         void RouteController_didUpdateLocations (MBRouteController routeController, CLLocation[] locations);
+
+        /// Called when the route controller arrives at a waypoint.
+        /// \param waypoint The waypoint that the controller has arrived at.
+        ///
+        /// \param finalDestination A boolean flag that signals that the waypoint is the final destination.
+        ///
+        // - (void)routeController:(MBRouteController * _Nonnull)routeController didArriveAtWaypoint:(MBWaypoint * _Nonnull)waypoint;
+        [Export ("routeController:didArriveAtWaypoint:")]
+        void RouteController_didArriveAtWaypoint (MBRouteController routeController, MBWaypoint waypoint);
     }
 
     // @interface MBRouteLegProgress : NSObject
@@ -374,25 +407,6 @@ namespace MapboxCoreNavigation
         IntPtr Constructor (MBRoute route, nint legIndex, nint spokenInstructionIndex);
     }
 
-    // @interface MBRouteStepFormatter : NSFormatter
-    [BaseType (typeof(NSFormatter))]
-    interface MBRouteStepFormatter
-    {
-        // -(NSString * _Nullable)stringForObjectValue:(id _Nullable)obj __attribute__((warn_unused_result));
-        [Export ("stringForObjectValue:")]
-        [return: NullAllowed]
-        string StringForObjectValue ([NullAllowed] NSObject obj);
-
-        // -(BOOL)getObjectValue:(id  _Nullable * _Nullable)obj forString:(NSString * _Nonnull)string errorDescription:(NSString * _Nullable * _Nullable)error __attribute__((warn_unused_result));
-        [Export ("getObjectValue:forString:errorDescription:")]
-        bool GetObjectValue ([NullAllowed] out NSObject obj, string @string, [NullAllowed] out string error);
-
-        //// -(instancetype _Nullable)initWithCoder:(NSCoder * _Nonnull)aDecoder __attribute__((objc_designated_initializer));
-        //[Export ("initWithCoder:")]
-        //[DesignatedInitializer]
-        //IntPtr Constructor (NSCoder aDecoder);
-    }
-
     // @interface MBRouteStepProgress : NSObject
     [BaseType (typeof(NSObject))]
     [DisableDefaultCtor]
@@ -457,6 +471,10 @@ namespace MapboxCoreNavigation
         [NullAllowed, Export ("location", ArgumentSemantic.Strong)]
         CLLocation Location { get; }
 
+        // @property (nonatomic) double speedMultiplier;
+        [Export ("speedMultiplier", ArgumentSemantic.Assign)]
+        double SpeedMultiplier { get; set; }
+
         // -(instancetype _Nonnull)initWithRoute:(MBRoute * _Nonnull)route __attribute__((objc_designated_initializer));
         [Export ("initWithRoute:")]
         [DesignatedInitializer]
@@ -470,15 +488,4 @@ namespace MapboxCoreNavigation
         [Export ("stopUpdatingLocation")]
         void StopUpdatingLocation ();
     }
-
-    // @interface MBVisualInstructionFormatter : NSObject
-    [BaseType (typeof(NSObject))]
-    interface MBVisualInstructionFormatter
-    {
-        // -(NSString * _Nullable)stringWithLeg:(MBRouteLeg * _Nullable)leg step:(MBRouteStep * _Nullable)step __attribute__((warn_unused_result));
-        [Export ("stringWithLeg:step:")]
-        [return: NullAllowed]
-        string StringWithLeg ([NullAllowed] MBRouteLeg leg, [NullAllowed] MBRouteStep step);
-    }
-
 }

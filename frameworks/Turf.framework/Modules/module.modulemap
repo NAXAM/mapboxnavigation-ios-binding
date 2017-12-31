@@ -1,5 +1,5 @@
 framework module Turf {
-  umbrella header "Turf-umbrella.h"
+  umbrella header "Turf.h"
 
   export *
   module * { export * }

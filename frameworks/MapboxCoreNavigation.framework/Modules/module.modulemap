@@ -1,5 +1,5 @@
 framework module MapboxCoreNavigation {
-  umbrella header "MapboxCoreNavigation-umbrella.h"
+  umbrella header "MapboxCoreNavigation.h"
 
   export *
   module * { export * }

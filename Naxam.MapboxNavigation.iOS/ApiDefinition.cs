@@ -1,5 +1,7 @@
 ﻿using System;
 using AVFoundation;
+using AWSCore;
+using AWSPolly;
 using CoreAnimation;
 using CoreGraphics;
 using CoreLocation;
@@ -255,6 +257,60 @@ namespace MapboxNavigation
     interface MBDistanceRemainingLabel
     {
         // -(instancetype _Nonnull)initWithFrame:(CGRect)frame __attribute__((objc_designated_initializer));
+        [Export("initWithFrame:")]
+        [DesignatedInitializer]
+        IntPtr Constructor(CGRect frame);
+    }
+
+    // @interface MBEndOfRouteButton : MBStylableButton
+    [BaseType(typeof(MBStylableLabel))]
+    interface MBEndOfRouteButton
+    {
+        // - (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+        [Export("initWithFrame:")]
+        [DesignatedInitializer]
+        IntPtr Constructor(CGRect frame);
+    }
+
+    // @interface MBStylableTextView : UITextView
+    [BaseType(typeof(UITextView))]
+    interface MBStylableTextView
+    {
+        // @property (nonatomic, strong) UIColor * _Nonnull normalTextColor;
+        [Export("normalTextColor")]
+        UIColor NormalTextColor { get; set; }
+
+        // - (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+        [Export("initWithFrame:")]
+        [DesignatedInitializer]
+        IntPtr Constructor(CGRect frame);
+    }
+
+    // @interface MBEndOfRouteContentView : UIView
+    [BaseType(typeof(UIView))]
+    interface MBEndOfRouteContentView
+    {
+        // - (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+        [Export("initWithFrame:")]
+        [DesignatedInitializer]
+        IntPtr Constructor(CGRect frame);
+    }
+
+    // @interface MBEndOfRouteStaticLabel : MBStylableLabel
+    [BaseType(typeof(MBStylableLabel))]
+    interface MBEndOfRouteStaticLabel
+    {
+        // - (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+        [Export("initWithFrame:")]
+        [DesignatedInitializer]
+        IntPtr Constructor(CGRect frame);
+    }
+
+    // @interface MBEndOfRouteTitleLabel : MBStylableLabel
+    [BaseType(typeof(MBStylableLabel))]
+    interface MBEndOfRouteTitleLabel
+    {
+        // - (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
         [Export("initWithFrame:")]
         [DesignatedInitializer]
         IntPtr Constructor(CGRect frame);
@@ -661,6 +717,7 @@ namespace MapboxNavigation
 
     // @protocol MBNavigationMapViewDelegate
     [Protocol, Model]
+    [BaseType(typeof(NSObject))]
     interface MBNavigationMapViewDelegate
     {
         // @optional -(MGLStyleLayer * _Nullable)navigationMapView:(MBNavigationMapView * _Nonnull)mapView routeStyleLayerWithIdentifier:(NSString * _Nonnull)identifier source:(MGLSource * _Nonnull)source __attribute__((warn_unused_result));
@@ -751,10 +808,6 @@ namespace MapboxNavigation
         [Export("routeController", ArgumentSemantic.Strong)]
         MBRouteController RouteController { get; set; }
 
-        // @property (copy, nonatomic) NSArray<MBStyle *> * _Nullable styles;
-        [NullAllowed, Export("styles", ArgumentSemantic.Copy)]
-        MBStyle[] Styles { get; set; }
-
         // @property (readonly, nonatomic, strong) MBNavigationMapView * _Nullable mapView;
         [NullAllowed, Export("mapView", ArgumentSemantic.Strong)]
         MBNavigationMapView MapView { get; }
@@ -771,6 +824,11 @@ namespace MapboxNavigation
         [Export("showsReportFeedback")]
         bool ShowsReportFeedback { get; set; }
 
+        // /// Shows End of route Feedback UI when the route controller arrives at the final destination. Defaults to <code>true.</code>
+        // @property (nonatomic) BOOL showsEndOfRouteFeedback;
+        [Export("showsEndOfRouteFeedback")]
+        bool ShowsEndOfRouteFeedback { get; set; }
+
         // @property (nonatomic) BOOL automaticallyAdjustsStyleForTimeOfDay;
         [Export("automaticallyAdjustsStyleForTimeOfDay")]
         bool AutomaticallyAdjustsStyleForTimeOfDay { get; set; }
@@ -783,6 +841,41 @@ namespace MapboxNavigation
         [Export("initWithRoute:directions:style:locationManager:")]
         [DesignatedInitializer]
         IntPtr Constructor(MBRoute route, MBDirections directions, [NullAllowed] MBStyle[] styles, [NullAllowed] MBNavigationLocationManager locationManager);
+    }
+
+    // @protocol MBStyleManagerDelegate <NSObject>
+    [Protocol, Model]
+    [BaseType(typeof(NSObject))]
+    interface MBStyleManagerDelegate {
+    // /// Asks the delegate for a location to use when calculating sunset and sunrise.
+    // - (CLLocation * _Nonnull)locationForStyleManager:(MBStyleManager * _Nonnull)styleManager SWIFT_WARN_UNUSED_RESULT;
+        [Abstract, Export("locationForStyleManager:")]
+        CLLocation MBStyleManager_locationForStyleManager(MBStyleManager styleManager);
+        // @optional
+        // /// Informs the delegate that a style was applied.
+        // - (void)styleManager:(MBStyleManager * _Nonnull)styleManager didApply:(MBStyle * _Nonnull)style;
+        [Export("styleManager:didApply:")]
+        CLLocation MBStyleManager_didApply(MBStyleManager styleManager, MBStyle style);
+        // /// Informs the delegate that the manager forcefully refreshed UIAppearance.
+        // - (void)styleManagerDidRefreshAppearance:(MBStyleManager * _Nonnull)styleManager;
+        [Export("styleManagerDidRefreshAppearance:")]
+        CLLocation MBStyleManager_styleManagerDidRefreshAppearance(MBStyleManager styleManager);
+    }
+
+    // @interface MBNavigationViewController (SWIFT_EXTENSION(MapboxNavigation)) <MBStyleManagerDelegate>
+    [Category]
+    [BaseType(typeof(MBNavigationViewController))]
+    interface MBNavigationViewController_MBStyleManager
+    {
+    // - (CLLocation * _Nonnull)locationForStyleManager:(MBStyleManager * _Nonnull)styleManager SWIFT_WARN_UNUSED_RESULT;
+        [Export("locationForStyleManager:")]
+        CLLocation MBStyleManager_locationForStyleManager(MBStyleManager styleManager);
+        // - (void)styleManager:(MBStyleManager * _Nonnull)styleManager didApply:(MBStyle * _Nonnull)style;
+        [Export("styleManager:didApply:")]
+        CLLocation MBStyleManager_didApply(MBStyleManager styleManager, MBStyle style);
+        // - (void)styleManagerDidRefreshAppearance:(MBStyleManager * _Nonnull)styleManager;
+        [Export("styleManagerDidRefreshAppearance:")]
+        CLLocation MBStyleManager_styleManagerDidRefreshAppearance(MBStyleManager styleManager);
     }
 
     // @interface MapboxNavigation_Swift_660 (MBNavigationViewController)
@@ -817,6 +910,10 @@ namespace MapboxNavigation
         // -(void)routeController:(MBRouteController * _Nonnull)routeController didDiscardLocation:(CLLocation * _Nonnull)location;
         [Export("routeController:didDiscardLocation:")]
         void RouteController_didDiscardLocation(MBRouteController routeController, CLLocation location);
+
+        //- (void)routeController:(MBRouteController * _Nonnull)routeController didArriveAtWaypoint:(MBWaypoint * _Nonnull)waypoint;
+        [Export("routeController:didArriveAtWaypoint:")]
+        void RouteController_didArriveAtWaypoint(MBRouteController routeController, MBWaypoint waypoint);
     }
 
     // @protocol MBNavigationViewControllerDelegate
@@ -998,11 +1095,11 @@ namespace MapboxNavigation
     {
         // @property (nonatomic) int globalVoiceId;
         [Export("globalVoiceId")]
-        int GlobalVoiceId { get; set; }
+        AWSPollyVoiceId GlobalVoiceId { get; set; }
 
         // @property (nonatomic) int regionType;
         [Export("regionType")]
-        int RegionType { get; set; }
+        AWSRegionType RegionType { get; }
 
         // @property (copy, nonatomic) NSString * _Nonnull identityPoolId;
         [Export("identityPoolId")]
@@ -1188,6 +1285,13 @@ namespace MapboxNavigation
         void DrawMarkerWithFrame(CGRect frame, UIColor innerColor, UIColor shadowColor, UIColor pinColor, UIColor strokeColor);
     }
 
+    // @interface MBStyleManager : NSObject
+    [BaseType(typeof(NSObject))]
+    interface MBStyleManager 
+    {
+    // - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+    }
+
     // @interface MBSubtitleLabel : MBStylableLabel
     [BaseType(typeof(MBStylableLabel))]
     interface MBSubtitleLabel
@@ -1251,6 +1355,7 @@ namespace MapboxNavigation
 
     // @protocol MBUserCourseView
     [Protocol, Model]
+    [BaseType(typeof(NSObject))]
     interface MBUserCourseView
     {
         // @required -(void)updateWithLocation:(CLLocation * _Nonnull)location pitch:(CGFloat)pitch direction:(CLLocationDegrees)direction animated:(BOOL)animated tracksUserCourse:(BOOL)tracksUserCourse;
@@ -1279,15 +1384,16 @@ namespace MapboxNavigation
 
     // @protocol MBVoiceControllerDelegate
     [Protocol, Model]
+    [BaseType(typeof(NSObject))]
     interface MBVoiceControllerDelegate
     {
         // @optional -(void)voiceController:(MBRouteVoiceController * _Nonnull)voiceController spokenInstrucionsDidFailWithError:(NSError * _Nonnull)error;
         [Export("voiceController:spokenInstrucionsDidFailWithError:")]
-        void SpokenInstrucionsDidFailWithError(MBRouteVoiceController voiceController, NSError error);
+        void MBRouteVoiceController_spokenInstrucionsDidFailWithError(MBRouteVoiceController voiceController, NSError error);
 
         // @optional -(void)voiceController:(MBRouteVoiceController * _Nonnull)voiceController didInterruptSpokenInstruction:(MBSpokenInstruction * _Nonnull)interruptedInstruction withInstruction:(MBSpokenInstruction * _Nonnull)interruptingInstruction;
         [Export("voiceController:didInterruptSpokenInstruction:withInstruction:")]
-        void DidInterruptSpokenInstruction(MBRouteVoiceController voiceController, MBSpokenInstruction interruptedInstruction, MBSpokenInstruction interruptingInstruction);
+        void MBRouteVoiceController_didInterruptSpokenInstruction(MBRouteVoiceController voiceController, MBSpokenInstruction interruptedInstruction, MBSpokenInstruction interruptingInstruction);
     }
 
     // @interface MBWayNameLabel : MBStylableLabel

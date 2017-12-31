@@ -1,5 +1,5 @@
 framework module Polyline {
-  umbrella header "Polyline-umbrella.h"
+  umbrella header "Polyline.h"
 
   export *
   module * { export * }

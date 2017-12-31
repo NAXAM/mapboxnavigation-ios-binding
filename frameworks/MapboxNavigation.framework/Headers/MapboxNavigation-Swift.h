@@ -182,6 +182,7 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 @import AVFoundation;
 @import AWSPolly;
 @import AWSCore;
+@import MapboxDirections;
 #endif
 
 #pragma clang diagnostic ignored "-Wproperty-attribute-mismatch"
@@ -308,7 +309,6 @@ enum MBStyleType : NSInteger;
 /// Styles are applied globally using <code>UIAppearance</code>. You should call <code>Style.apply()</code> to apply the style to the <code>NavigationViewController</code>.
 SWIFT_CLASS_NAMED("Style")
 @interface MBStyle : NSObject
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 /// General styling
 /// Sets the tint color for guidance arrow, highlighted text, progress bar and more.
 @property (nonatomic, strong) UIColor * _Nullable tintColor;
@@ -320,6 +320,7 @@ SWIFT_CLASS_NAMED("Style")
 @property (nonatomic, copy) NSURL * _Nonnull mapStyleURL;
 /// Applies the style for all changed properties.
 - (void)apply;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
 
@@ -354,6 +355,56 @@ SWIFT_CLASS_NAMED("DistanceLabel")
 /// :nodoc:
 SWIFT_CLASS_NAMED("DistanceRemainingLabel")
 @interface MBDistanceRemainingLabel : MBStylableLabel
+- (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+/// :nodoc:
+SWIFT_CLASS_NAMED("EndOfRouteButton")
+@interface MBEndOfRouteButton : MBStylableButton
+- (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
+@end
+
+@class NSTextContainer;
+
+/// :nodoc:
+SWIFT_CLASS_NAMED("StylableTextView")
+@interface MBStylableTextView : UITextView
+@property (nonatomic, strong) UIColor * _Nonnull normalTextColor;
+- (nonnull instancetype)initWithFrame:(CGRect)frame textContainer:(NSTextContainer * _Nullable)textContainer OBJC_DESIGNATED_INITIALIZER SWIFT_AVAILABILITY(ios,introduced=7.0);
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+/// :nodoc:
+SWIFT_CLASS_NAMED("EndOfRouteCommentView")
+@interface MBEndOfRouteCommentView : MBStylableTextView
+- (nonnull instancetype)initWithFrame:(CGRect)frame textContainer:(NSTextContainer * _Nullable)textContainer OBJC_DESIGNATED_INITIALIZER SWIFT_AVAILABILITY(ios,introduced=7.0);
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+/// :nodoc:
+SWIFT_CLASS_NAMED("EndOfRouteContentView")
+@interface MBEndOfRouteContentView : UIView
+- (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+/// :nodoc:
+SWIFT_CLASS_NAMED("EndOfRouteStaticLabel")
+@interface MBEndOfRouteStaticLabel : MBStylableLabel
+- (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+/// :nodoc:
+SWIFT_CLASS_NAMED("EndOfRouteTitleLabel")
+@interface MBEndOfRouteTitleLabel : MBStylableLabel
 - (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
 @end
@@ -519,6 +570,8 @@ SWIFT_CLASS_NAMED("MarkerView")
 
 
 
+
+
 @class UIGestureRecognizer;
 @class CLLocation;
 @class MBRoute;
@@ -628,9 +681,6 @@ SWIFT_CLASS_NAMED("NavigationViewController")
 /// Provides all routing logic for the user.
 /// See <code>RouteController</code> for more information.
 @property (nonatomic, strong) MBRouteController * _Null_unspecified routeController;
-/// Styles that will be used for various system traits.
-/// See <code>Style</code> and <code>DefaultStyle</code> for more information.
-@property (nonatomic, copy) NSArray<MBStyle *> * _Nullable styles;
 /// The main map view displayed inside the view controller.
 /// note:
 /// Do not change this map view’s delegate.
@@ -640,8 +690,10 @@ SWIFT_CLASS_NAMED("NavigationViewController")
 @property (nonatomic) BOOL snapsUserLocationAnnotationToRoute;
 /// Toggles sending of UILocalNotification upon upcoming steps when application is in the background. Defaults to <code>true</code>.
 @property (nonatomic) BOOL sendsNotifications;
-/// Shows a button that allows drivers to report feedback such as accidents, closed roads,  poor instructions, etc. Defaults to <code>false</code>.
+/// Shows a button that allows drivers to report feedback such as accidents, closed roads,  poor instructions, etc. Defaults to <code>true</code>.
 @property (nonatomic) BOOL showsReportFeedback;
+/// Shows End of route Feedback UI when the route controller arrives at the final destination. Defaults to <code>true.</code>
+@property (nonatomic) BOOL showsEndOfRouteFeedback;
 /// If true, the map style and UI will automatically be updated given the time of day.
 @property (nonatomic) BOOL automaticallyAdjustsStyleForTimeOfDay;
 /// A Boolean value that determines whether the map annotates the locations at which instructions are spoken for debugging purposes.
@@ -656,6 +708,27 @@ SWIFT_CLASS_NAMED("NavigationViewController")
 - (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil SWIFT_UNAVAILABLE;
 @end
 
+@class MBStyleManager;
+
+/// The <code>StyleManagerDelegate</code> protocol defines a set of methods used for controlling the style.
+SWIFT_PROTOCOL_NAMED("StyleManagerDelegate")
+@protocol MBStyleManagerDelegate <NSObject>
+/// Asks the delegate for a location to use when calculating sunset and sunrise.
+- (CLLocation * _Nonnull)locationForStyleManager:(MBStyleManager * _Nonnull)styleManager SWIFT_WARN_UNUSED_RESULT;
+@optional
+/// Informs the delegate that a style was applied.
+- (void)styleManager:(MBStyleManager * _Nonnull)styleManager didApply:(MBStyle * _Nonnull)style;
+/// Informs the delegate that the manager forcefully refreshed UIAppearance.
+- (void)styleManagerDidRefreshAppearance:(MBStyleManager * _Nonnull)styleManager;
+@end
+
+
+@interface MBNavigationViewController (SWIFT_EXTENSION(MapboxNavigation)) <MBStyleManagerDelegate>
+- (CLLocation * _Nonnull)locationForStyleManager:(MBStyleManager * _Nonnull)styleManager SWIFT_WARN_UNUSED_RESULT;
+- (void)styleManager:(MBStyleManager * _Nonnull)styleManager didApply:(MBStyle * _Nonnull)style;
+- (void)styleManagerDidRefreshAppearance:(MBStyleManager * _Nonnull)styleManager;
+@end
+
 
 @interface MBNavigationViewController (SWIFT_EXTENSION(MapboxNavigation)) <MBRouteControllerDelegate>
 - (BOOL)routeController:(MBRouteController * _Nonnull)routeController shouldRerouteFromLocation:(CLLocation * _Nonnull)location SWIFT_WARN_UNUSED_RESULT;
@@ -665,6 +738,7 @@ SWIFT_CLASS_NAMED("NavigationViewController")
 - (void)routeController:(MBRouteController * _Nonnull)routeController didFailToRerouteWithError:(NSError * _Nonnull)error;
 - (void)routeController:(MBRouteController * _Nonnull)routeController didUpdateLocations:(NSArray<CLLocation *> * _Nonnull)locations;
 - (void)routeController:(MBRouteController * _Nonnull)routeController didDiscardLocation:(CLLocation * _Nonnull)location;
+- (void)routeController:(MBRouteController * _Nonnull)routeController didArriveAtWaypoint:(MBWaypoint * _Nonnull)waypoint;
 @end
 
 @class MGLAnnotationImage;
@@ -768,7 +842,7 @@ SWIFT_CLASS_NAMED("NextInstructionLabel")
 @end
 
 
-/// <code>NightStyle</code> is default night style for Mapbox Navigation SDK. Only will be applied when necessary and if <code>automaticallyAdjustStyleForSunPosition</code>.
+/// <code>NightStyle</code> is the default night style for Mapbox Navigation SDK. Only will be applied when necessary and if <code>automaticallyAdjustStyleForSunPosition</code>.
 SWIFT_CLASS_NAMED("NightStyle")
 @interface MBNightStyle : MBDayStyle
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
@@ -811,7 +885,7 @@ SWIFT_CLASS_NAMED("PollyVoiceController")
 /// Forces Polly voice to always be of specified type. If not set, a localized voice will be used.
 @property (nonatomic) AWSPollyVoiceId globalVoiceId;
 /// <code>regionType</code> specifies what AWS region to use for Polly.
-@property (nonatomic) AWSRegionType regionType;
+@property (nonatomic, readonly) AWSRegionType regionType;
 /// <code>identityPoolId</code> is a required value for using AWS Polly voice instead of iOS’s built in AVSpeechSynthesizer.
 /// You can get a token here: http://docs.aws.amazon.com/mobile/sdkforios/developerguide/cognito-auth-aws-identity-for-ios.html
 @property (nonatomic, copy) NSString * _Nonnull identityPoolId;
@@ -877,6 +951,8 @@ SWIFT_CLASS_NAMED("SeparatorView")
 @end
 
 
+
+
 /// :nodoc:
 SWIFT_CLASS_NAMED("StatusView")
 @interface MBStatusView : UIView
@@ -934,12 +1010,22 @@ SWIFT_CLASS_NAMED("StepsViewController")
 
 
 
+
 SWIFT_CLASS_NAMED("StyleKitMarker")
 @interface MBStyleKitMarker : NSObject
 /// / Drawing Methods
 + (void)drawMarkerWithFrame:(CGRect)frame innerColor:(UIColor * _Nonnull)innerColor shadowColor:(UIColor * _Nonnull)shadowColor pinColor:(UIColor * _Nonnull)pinColor strokeColor:(UIColor * _Nonnull)strokeColor;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
+
+
+/// A manager that handles <code>Style</code> objects. The manager listens for significant time changes
+/// and changes to the content size to apply an approriate style for the given condition.
+SWIFT_CLASS_NAMED("StyleManager")
+@interface MBStyleManager : NSObject
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
+@end
+
 
 typedef SWIFT_ENUM_NAMED(NSInteger, MBStyleType, "StyleType") {
   MBStyleTypeDayStyle = 0,
@@ -1000,16 +1086,12 @@ SWIFT_CLASS_NAMED("TitleLabel")
 
 
 
-
-
 /// A view that represents the user’s location and course on a <code>NavigationMapView</code>.
 SWIFT_PROTOCOL_NAMED("UserCourseView")
 @protocol MBUserCourseView
 /// Updates the view to reflect the given location and other camera properties.
 - (void)updateWithLocation:(CLLocation * _Nonnull)location pitch:(CGFloat)pitch direction:(CLLocationDegrees)direction animated:(BOOL)animated tracksUserCourse:(BOOL)tracksUserCourse;
 @end
-
-
 
 
 /// A view representing the user’s location on screen.
@@ -1023,7 +1105,8 @@ SWIFT_CLASS_NAMED("UserPuckCourseView")
 - (void)updateWithLocation:(CLLocation * _Nonnull)location pitch:(CGFloat)pitch direction:(CLLocationDegrees)direction animated:(BOOL)animated tracksUserCourse:(BOOL)tracksUserCourse;
 @end
 
-@class MBSpokenInstruction;
+
+
 
 /// The <code>VoiceControllerDelegate</code> protocol defines methods that allow an object to respond to significant events related to spoken instructions.
 SWIFT_PROTOCOL_NAMED("VoiceControllerDelegate")
@@ -1062,6 +1145,8 @@ SWIFT_CLASS_NAMED("WayNameView")
 - (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
 @end
+
+
 
 SWIFT_MODULE_NAMESPACE_POP
 #pragma clang diagnostic pop
