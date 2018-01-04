@@ -546,7 +546,7 @@ namespace MapboxNavigation
     }
 
     // @interface MBNavigationMapView <UIGestureRecognizerDelegate>
-    [BaseType(typeof(NSObject))]
+    [BaseType(typeof(MGLMapView))]
     interface MBNavigationMapView : IUIGestureRecognizerDelegate
     {
         // @property (readonly, nonatomic, class) CLLocationDistance defaultAltitude;
