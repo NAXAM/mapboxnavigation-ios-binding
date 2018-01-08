@@ -31,10 +31,10 @@ See [LICENSE](./LICENSE) for details.
 Try our showcases to know more about our capabilities. 
 
 <a href="https://itunes.apple.com/us/developer/tuyen-vu/id1255432728/" > 
-<img src="https://github.com/NAXAM/imagepicker-iOS-binding/raw/master/art/apple_store.png" width="117" height="34"></a>
+<img src="https://github.com/NAXAM/imagepicker-android-binding/raw/master/art/apple_store.png" width="117" height="34"></a>
 
 <a href="https://play.google.com/store/apps/developer?id=NAXAM+CO.,+LTD" > 
-<img src="https://github.com/NAXAM/imagepicker-iOS-binding/raw/master/art/google_store.png" width="117" height="34"></a>
+<img src="https://github.com/NAXAM/imagepicker-android-binding/raw/master/art/google_store.png" width="117" height="34"></a>
 
 Contact us if interested.
 
