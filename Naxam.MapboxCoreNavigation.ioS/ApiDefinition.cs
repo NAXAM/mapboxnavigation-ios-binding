@@ -8,6 +8,17 @@ using MapboxDirections;
 namespace MapboxCoreNavigation
 {
     [Static]
+    partial interface MBNavigationSettingsNotificationKey {
+        /// <summary>
+        /// Posted when something changes in the shared `MBNavigationSettings` object.
+        /// The user info dictionary indicates which keys and values changed.
+        /// extern const NSNotificationName MBNavigationSettingsDidChangeNotification;
+        /// </summary>
+        [Field("MBNavigationSettingsDidChangeNotification")]
+        NSString DidChangeNotification {get;}
+    }
+
+    [Static]
     partial interface MBRouteControllerConstants
     {
         // extern NSString *const MBRouteControllerProgressDidChangeNotificationProgressKey;
