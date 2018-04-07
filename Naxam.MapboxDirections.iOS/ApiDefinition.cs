@@ -702,4 +702,236 @@ namespace MapboxDirections
         [Export("alternateCount")]
         nint AlternateCount { get; set; }
     }
+
+    /// <summary>
+    /// Options for calculating results from the Mapbox Directions service.
+    /// You do not create instances of this class directly. Instead, create instances of <code>MatchOptions</code> or <code>RouteOptions</code>.
+    /// </summary>
+    //SWIFT_CLASS_NAMED("DirectionsOptions")
+    //@interface MBDirectionsOptions : NSObject<NSCopying, NSSecureCoding>
+    [BaseType(typeof(NSObject))]
+    [DisableDefaultCtor]
+    interface MBDirectionsOptions : INSCopying, INSSecureCoding
+    {
+        /// <summary>
+        /// Initializes a route options object for routes between the given waypoints and an optional profile identifier.
+        /// </summary>
+        /// <param name="waypoints">
+        /// An array of <code>Waypoint</code> objects representing locations that the route should visit in chronological order. The array should contain at least two waypoints (the source and destination) and at most 25 waypoints. (Some profiles, such as <code>MBDirectionsProfileIdentifierAutomobileAvoidingTraffic</code>, <a href="https://www.mapbox.com/api-documentation/#directions">may have lower limits</a>.)
+        /// </param>
+        /// <param name="profileIdentifier">
+        /// A string specifying the primary mode of transportation for the routes. This parameter, if set, should be set to <code>MBDirectionsProfileIdentifierAutomobile</code>, <code>MBDirectionsProfileIdentifierAutomobileAvoidingTraffic</code>, <code>MBDirectionsProfileIdentifierCycling</code>, or <code>MBDirectionsProfileIdentifierWalking</code>. <code>MBDirectionsProfileIdentifierAutomobile</code> is used by default.
+        /// </param>
+        //- (nonnull instancetype) initWithWaypoints:(NSArray<MBWaypoint*>* _Nonnull) waypoints profileIdentifier:(MBDirectionsProfileIdentifier _Nullable) profileIdentifier OBJC_DESIGNATED_INITIALIZER;
+        [Export("initWithWaypoints:profileIdentifier:"), DesignatedInitializer]
+        IntPtr Constructor(MBWaypoint[] waypoints, string profileIdentifier);
+
+        //- (BOOL) isEqual:(id _Nullable) object SWIFT_WARN_UNUSED_RESULT;
+        [Export("isEqual:")]
+        bool IsEqual(NSObject obj);
+
+        //- (BOOL) isEqualToDirectionsOptions:(MBDirectionsOptions* _Nullable) directionsOptions SWIFT_WARN_UNUSED_RESULT;
+        [Export("isEqualToDirectionsOptions:")]
+        bool IsEqual(MBDirectionsOptions obj);
+
+        /// <summary>
+        /// An array of <code>Waypoint</code> objects representing locations that the route should visit in chronological order.
+        /// A waypoint object indicates a location to visit, as well as an optional heading from which to approach the location.
+        /// The array should contain at least two waypoints (the source and destination) and at most 25 waypoints.
+        /// </summary>
+        //@property(nonatomic, copy) NSArray<MBWaypoint*>* _Nonnull waypoints;
+        [Export("waypoints")]
+        MBWaypoint Waypoints { get; set; }
+
+        /// <summary>
+        /// A string specifying the primary mode of transportation for the routes.
+        /// This property should be set to <code>MBDirectionsProfileIdentifierAutomobile</code>, <code>MBDirectionsProfileIdentifierAutomobileAvoidingTraffic</code>, <code>MBDirectionsProfileIdentifierCycling</code>, or <code>MBDirectionsProfileIdentifierWalking</code>. The default value of this property is <code>MBDirectionsProfileIdentifierAutomobile</code>, which specifies driving directions.
+        /// </summary>
+        //@property(nonatomic) MBDirectionsProfileIdentifier _Nonnull profileIdentifier;
+        [Export("profileIdentifier")]
+        string ProfileIdentifier { get; set; }
+
+        /// <summary>
+        /// A Boolean value indicating whether <code>MBRouteStep</code> objects should be included in the response.
+        /// If the value of this property is <code>true</code>, the returned route contains turn-by-turn instructions. Each returned <code>MBRoute</code> object contains one or more <code>MBRouteLeg</code> object that in turn contains one or more <code>MBRouteStep</code> objects. On the other hand, if the value of this property is <code>false</code>, the <code>MBRouteLeg</code> objects contain no <code>MBRouteStep</code> objects.
+        /// If you only want to know the distance or estimated travel time to a destination, set this property to <code>false</code> to minimize the size of the response and the time it takes to calculate the response. If you need to display turn-by-turn instructions, set this property to <code>true</code>.
+        /// The default value of this property is <code>false</code>.
+        /// </summary>
+        //@property(nonatomic) BOOL includesSteps;
+        [Export("includesSteps")]
+        bool IncludesSteps { get; set; }
+
+        /// <summary>
+        /// Format of the data from which the shapes of the returned route and its steps are derived.
+        /// This property has no effect on the returned shape objects, although the choice of format can significantly affect the size of the underlying HTTP response.
+        /// The default value of this property is <code>polyline</code>.
+        /// </summary>
+        //@property(nonatomic) enum MBRouteShapeFormat shapeFormat;
+        [Export("shapeFormat")]
+        MBRouteShapeFormat shapeFormat { get; set; }
+
+        /// <summary>
+        /// Resolution of the shape of the returned route.
+        /// This property has no effect on the shape of the returned route’s steps.
+        /// The default value of this property is <code>low</code>, specifying a low-resolution route shape.
+        /// </summary>
+        //@property(nonatomic) enum MBRouteShapeResolution routeShapeResolution;
+        [Export("routeShapeResolution")]
+        MBRouteShapeResolution routeShapeResolution { get; set; }
+
+        /// <summary>
+        /// AttributeOptions for the route. Any combination of <code>AttributeOptions</code> can be specified.
+        /// By default, no attribute options are specified. It is recommended that <code>routeShapeResolution</code> be set to <code>.full</code>.
+        /// </summary>
+        //@property(nonatomic) MBAttributeOptions attributeOptions;
+        [Export("attributeOptions")]
+        MBAttributeOptions AttributeOptions { get; set; }
+
+        /// <summary>
+        /// The locale in which the route’s instructions are written.
+        /// If you use MapboxDirections.swift with the Mapbox Directions API or Map Matching API, this property affects the sentence contained within the <code>RouteStep.instructions</code> property, but it does not affect any road names contained in that property or other properties such as <code>RouteStep.name</code>.
+        /// The Directions API can provide instructions in <a href="https://www.mapbox.com/api-documentation/#instructions-languages">a number of languages</a>. Set this property to <code>Bundle.main.preferredLocalizations.first</code> or <code>Locale.autoupdatingCurrent</code> to match the application’s language or the system language, respectively.
+        /// By default, this property is set to the current system locale.
+        /// </summary>
+        //@property(nonatomic, copy) NSLocale* _Nonnull locale;
+        [Export("locale")]
+        NSLocale Locale { get; set; }
+
+        /// <summary>
+        /// A Boolean value indicating whether each route step includes an array of <code>SpokenInstructions</code>.
+        /// If this option is set to true, the <code>RouteStep.instructionsSpokenAlongStep</code> property is set to an array of <code>SpokenInstructions</code>.
+        /// </summary>
+        //@property(nonatomic) BOOL includesSpokenInstructions;
+        [Export("includesSpokenInstructions")]
+        bool IncludesSpokenInstructions { get; set; }
+
+        /// <summary>
+        /// The measurement system used in spoken instructions included in route steps.
+        /// If the <code>includesSpokenInstructions</code> property is set to <code>true</code>, this property determines the units used for measuring the distance remaining until an upcoming maneuver. If the <code>includesSpokenInstructions</code> property is set to <code>false</code>, this property has no effect.
+        /// You should choose a measurement system appropriate for the current region. You can also allow the user to indicate their preferred measurement system via a setting.
+        /// </summary>
+        //@property(nonatomic) enum MBMeasurementSystem distanceMeasurementSystem;
+        [Export("distanceMeasurementSystem")]
+        nint DistanceMeasurementSystem { get; set; }
+
+        /// <summary>
+        /// If true, each <code>RouteStep</code> will contain the property <code>visualInstructionsAlongStep</code>.
+        /// <code>visualInstructionsAlongStep</code> contains an array of <code>VisualInstruction</code> used for visually conveying information about a given <code>RouteStep</code>.
+        /// </summary>
+        //@property(nonatomic) BOOL includesVisualInstructions;
+        [Export("includesVisualInstructions")]
+        bool IncludesVisualInstructions { get; set; }
+    }
+
+    /// <summary>
+    /// A <code>DirectionsResult</code> represents a result returned from either the Mapbox Directions service.
+    /// You do not create instances of this class directly. Instead, you receive <code>Route</code> or <code>Match</code> objects when you request directions using the <code>Directions.calculate(_:completionHandler:)</code> or <code>Directions.calculateRoutes(matching:completionHandler:)</code> method.
+    /// </summary>
+    //SWIFT_CLASS_NAMED("DirectionsResult")
+    //@interface MBDirectionsResult : NSObject<NSSecureCoding>
+    [BaseType(typeof(NSObject))]
+    [DisableDefaultCtor]
+    interface MBDirectionsResult : INSSecureCoding
+    {
+        /// <summary>
+        /// An array of geographic coordinates defining the path of the route from start to finish.
+        /// This array may be <code>nil</code> or simplified depending on the <code>routeShapeResolution</code> property of the original <code>RouteOptions</code> object.
+        /// Using the <a href="https://www.mapbox.com/ios-sdk/">Mapbox Maps SDK for iOS</a> or <a href="https://github.com/mapbox/mapbox-gl-native/tree/master/platform/macos/">Mapbox Maps SDK for macOS</a>, you can create an <code>MGLPolyline</code> object using these coordinates to display an overview of the route on an <code>MGLMapView</code>.
+        /// </summary>
+        //@property(nonatomic, readonly, copy) NSArray<NSValue*>* _Nullable coordinates;
+        [Export("coordinates")]
+        NSValue[] Coordinates { get; set; }
+
+        /// <summary>
+        /// The number of coordinates.
+        /// The value of this property may be zero or reduced depending on the <code>routeShapeResolution</code> property of the original <code>RouteOptions</code> object.
+        /// note:
+        /// This initializer is intended for Objective-C usage. In Swift code, use the <code>coordinates.count</code> property.
+        /// </summary>
+        //@property(nonatomic, readonly) NSUInteger coordinateCount;
+        [Export("coordinateCount")]
+        nuint CoordinateCount { get; set; }
+
+        /// <summary>
+        /// Retrieves the coordinates.
+        /// The array may be empty or simplified depending on the <code>routeShapeResolution</code> property of the original <code>RouteOptions</code> object.
+        /// Using the <a href="https://www.mapbox.com/ios-sdk/">Mapbox Maps SDK for iOS</a> or <a href="https://github.com/mapbox/mapbox-gl-native/tree/master/platform/macos/">Mapbox Maps SDK for macOS</a>, you can create an <code>MGLPolyline</code> object using these coordinates to display an overview of the route on an <code>MGLMapView</code>.
+        /// precondition:
+        /// <code>coordinates</code> must be large enough to hold <code>coordinateCount</code> instances of <code>CLLocationCoordinate2D</code>.
+        /// note:
+        /// This initializer is intended for Objective-C usage. In Swift code, use the <code>coordinates</code> property.
+        /// \param coordinates A pointer to a C array of <code>CLLocationCoordinate2D</code> instances. On output, this array contains all the vertices of the overlay.
+        /// </summary>
+        //- (void) getCoordinates:(CLLocationCoordinate2D* _Nonnull) coordinates;
+        [Export("getCoordinates:")]
+        void GetCoordinates(CLLocationCoordinate2D coordinates);
+
+        /// <summary>
+        /// An array of <code>RouteLeg</code> objects representing the legs of the route.
+        /// The number of legs in this array depends on the number of waypoints. A route with two waypoints (the source and destination) has one leg, a route with three waypoints (the source, an intermediate waypoint, and the destination) has two legs, and so on.
+        /// To determine the name of the route, concatenate the names of the route’s legs.
+        /// </summary>
+        //@property(nonatomic, readonly, copy) NSArray<MBRouteLeg*>* _Nonnull legs;
+        [Export("legs")]
+        MBRouteLeg[] Legs { get; set; }
+
+        //@property(nonatomic, readonly, copy) NSString* _Nonnull description;
+        [Export("description")]
+        string description { get; set; }
+
+        /// <summary>
+        /// The route’s distance, measured in meters.
+        /// The value of this property accounts for the distance that the user must travel to traverse the path of the route. It is the sum of the <code>distance</code> properties of the route’s legs, not the sum of the direct distances between the route’s waypoints. You should not assume that the user would travel along this distance at a fixed speed.
+        /// </summary>
+        //@property(nonatomic, readonly) CLLocationDistance distance;
+        [Export("distance")]
+        double Distance { get; }
+
+        /// <summary>
+        /// The route’s expected travel time, measured in seconds.
+        /// The value of this property reflects the time it takes to traverse the entire route. It is the sum of the <code>expectedTravelTime</code> properties of the route’s legs. If the route was calculated using the <code>MBDirectionsProfileIdentifierAutomobileAvoidingTraffic</code> profile, this property reflects current traffic conditions at the time of the request, not necessarily the traffic conditions at the time the user would begin the route. For other profiles, this property reflects travel time under ideal conditions and does not account for traffic congestion. If the route makes use of a ferry or train, the actual travel time may additionally be subject to the schedules of those services.
+        /// </summary>
+        //@property(nonatomic, readonly) NSTimeInterval expectedTravelTime;
+        [Export("expectedTravelTime")]
+        double ExpectedTravelTime { get; set; }
+
+        /// <summary>
+        /// <code>RouteOptions</code> used to create the directions request.
+        /// The route options object’s profileIdentifier property reflects the primary mode of transportation used for the route. Individual steps along the route might use different modes of transportation as necessary.
+        /// </summary>
+        //@property(nonatomic, readonly, strong) MBDirectionsOptions* _Nonnull directionsOptions;
+        [Export("directionsOptions")]
+        MBDirectionsOptions DirectionsOptions { get; }
+
+        /// <summary>
+        /// The <a href="https://www.mapbox.com/help/define-access-token/">access token</a> used to make the directions request.
+        /// This property is set automatically if a request is made via <code>Directions.calculate(_:completionHandler:)</code>.
+        /// </summary>
+        //@property(nonatomic, copy) NSString* _Nullable accessToken;
+        [Export("accessToken")]
+        string AccessToken { get; set; }
+
+        /// <summary>
+        /// The endpoint used to make the directions request.
+        /// This property is set automatically if a request is made via <code>Directions.calculate(_:completionHandler:)</code>.
+        /// </summary>
+        //@property(nonatomic, copy) NSURL* _Nullable apiEndpoint;
+        [Export("apiEndpoint")]
+        NSUrl ApiEndpoint { get; set; }
+
+        /// <summary>
+        /// A unique identifier for a directions request.
+        /// Each route produced by a single call to <code>Directions.calculate(_:completionHandler:)</code> has the same route identifier.
+        //@property(nonatomic, copy) NSString* _Nullable routeIdentifier;
+        [Export("routeIdentifier")]
+        string RouteIdentifier { get; set; }
+
+        /// <summary>
+        /// The locale to use for spoken instructions.
+        /// This locale is specific to Mapbox Voice API. If <code>nil</code> is returned, the instruction should be spoken with an alternative speech synthesizer.
+        /// </summary>
+        //@property(nonatomic, copy) NSLocale* _Nullable speechLocale;
+        [Export("speechLocale")]
+        NSLocale SpeechLocale { get; set; }
+    }
 }
