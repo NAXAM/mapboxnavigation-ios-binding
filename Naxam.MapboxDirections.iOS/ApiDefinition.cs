@@ -46,11 +46,27 @@ namespace MapboxDirections
 
         // -(NSURLSessionDataTask * _Nonnull)calculateDirectionsWithOptions:(MBRouteOptions * _Nonnull)options completionHandler:(void (^ _Nonnull)(NSArray<MBWaypoint *> * _Nullable, NSArray<MBRoute *> * _Nullable, NSError * _Nullable))completionHandler;
         [Export("calculateDirectionsWithOptions:completionHandler:")]
-        NSUrlSessionDataTask CalculateDirectionsWithOptions(MBRouteOptions options, Action<NSArray<MBWaypoint>, NSArray<MBRoute>, NSError> completionHandler);
+        NSUrlSessionDataTask CalculateDirectionsWithOptions(MBRouteOptions options, Action<MBWaypoint[], MBRoute[], NSError> completionHandler);
+        /// Begins asynchronously calculating a match using the given options and delivers the results to a closure.
+        /// \param options A <code>MatchOptions</code> object specifying the requirements for the resulting match.
+        ///
+        /// \param completionHandler The closure (block) to call with the resulting routes. This closure is executed on the application’s main thread.
+        ///
+        ///
+        /// returns:
+        /// The data task used to perform the HTTP request. If, while waiting for the completion handler to execute, you no longer want the resulting routes, cancel this task.
+        //- (NSURLSessionDataTask* _Nonnull) calculateMatchesWithOptions:(MBMatchOptions* _Nonnull) options completionHandler:(void (^ _Nonnull)(NSArray<MBMatch*>* _Nullable, NSError* _Nullable))completionHandler;
+        [Export("calculateMatchesWithOptions:completionHandler:")]
+        NSUrlSessionDataTask CalculateMatchesWithOptions(MBMatchOptions options, Action<MBMatch[], NSError> completionHandler);
+        //- (NSURLSessionDataTask* _Nonnull) calculateRoutesMatchingOptions:(MBMatchOptions* _Nonnull) options completionHandler:(void (^ _Nonnull)(NSArray<MBWaypoint*>* _Nullable, NSArray<MBRoute*>* _Nullable, NSError* _Nullable))completionHandler;
+        [Export("calculateRoutesMatchingOptions:completionHandler:")]
+        NSUrlSessionDataTask CalculateRoutesMatchingOptions(MBMatchOptions options, Action<MBWaypoint[], MBRoute[], NSError> completionHandler);
 
-        // -(NSURL * _Nonnull)URLForCalculatingDirectionsWithOptions:(MBRouteOptions * _Nonnull)options __attribute__((warn_unused_result));
+        /// The HTTP URL used to fetch the routes from the API.
+        /// After requesting the URL returned by this method, you can parse the JSON data in the response and pass it into the <code>Route.init(json:waypoints:profileIdentifier:)</code> initializer.
+        //- (NSURL* _Nonnull) URLForCalculatingDirectionsWithOptions:(MBDirectionsOptions* _Nonnull) options SWIFT_WARN_UNUSED_RESULT;
         [Export("URLForCalculatingDirectionsWithOptions:")]
-        NSUrl URLForCalculatingDirectionsWithOptions(MBRouteOptions options);
+        NSUrl URLForCalculatingDirectionsWithOptions(MBDirectionsOptions options);
     }
 
     // @interface MBIntersection : NSObject <NSSecureCoding>
@@ -117,24 +133,14 @@ namespace MapboxDirections
         bool SupportsSecureCoding { get; set; }
     }
 
-    // @interface MBRoute : NSObject <NSSecureCoding>
-    [BaseType(typeof(NSObject))]
+    // @interface MBRoute : MBDirectionsResult
+    [BaseType(typeof(MBDirectionsResult))]
     [DisableDefaultCtor]
-    interface MBRoute : INSSecureCoding
+    interface MBRoute
     {
         // -(instancetype _Nonnull)initWithJson:(NSDictionary<NSString *,id> * _Nonnull)json waypoints:(NSArray<MBWaypoint *> * _Nonnull)waypoints routeOptions:(MBRouteOptions * _Nonnull)routeOptions;
-        [Export("initWithJson:waypoints:routeOptions:")]
+        [Export("initWithJson:waypoints:routeOptions:"), DesignatedInitializer]
         IntPtr Constructor(NSDictionary<NSString, NSObject> json, MBWaypoint[] waypoints, MBRouteOptions routeOptions);
-
-        //// -(instancetype _Nullable)initWithCoder:(NSCoder * _Nonnull)decoder __attribute__((objc_designated_initializer));
-        //[Export("initWithCoder:")]
-        //[DesignatedInitializer]
-        //IntPtr Constructor(NSCoder decoder);
-
-        // @property (nonatomic, class) BOOL supportsSecureCoding;
-        [Static]
-        [Export("supportsSecureCoding")]
-        bool SupportsSecureCoding { get; set; }
 
         // @property (readonly, copy, nonatomic) NSArray<NSValue *> * _Nullable coordinates;
         [NullAllowed, Export("coordinates", ArgumentSemantic.Copy)]
@@ -249,10 +255,10 @@ namespace MapboxDirections
         string ProfileIdentifier { get; }
     }
 
-    // @interface MBRouteOptions : NSObject <NSCopying, NSSecureCoding>
-    [BaseType(typeof(NSObject))]
+    // @interface MBRouteOptions  : MBDirectionsOptions
+    [BaseType(typeof(MBDirectionsOptions))]
     [DisableDefaultCtor]
-    interface MBRouteOptions : INSCopying, INSSecureCoding
+    interface MBRouteOptions
     {
         // -(instancetype _Nonnull)initWithWaypoints:(NSArray<MBWaypoint *> * _Nonnull)waypoints profileIdentifier:(MBDirectionsProfileIdentifier _Nullable)profileIdentifier __attribute__((objc_designated_initializer));
         [Export("initWithWaypoints:profileIdentifier:")]
@@ -412,6 +418,16 @@ namespace MapboxDirections
         [Export("description")]
         string Description { get; }
 
+        /// The type of maneuver required for beginning this step.
+        //@property(nonatomic, readonly) enum MBManeuverType maneuverType;
+        [Export("maneuverType")]
+        MBManeuverType ManeuverType { get; }
+
+        /// Additional directional information to clarify the maneuver type.
+        //@property(nonatomic, readonly) enum MBManeuverDirection maneuverDirection;
+        [Export("maneuverDirection")]
+        MBManeuverDirection ManeuverDirection { get; }
+
         // @property (readonly, nonatomic) CLLocationCoordinate2D maneuverLocation;
         [Export("maneuverLocation")]
         CLLocationCoordinate2D ManeuverLocation { get; }
@@ -447,6 +463,12 @@ namespace MapboxDirections
         // @property (readonly, copy, nonatomic) NSArray<NSString *> * _Nullable codes;
         [NullAllowed, Export("codes", ArgumentSemantic.Copy)]
         string[] Codes { get; }
+
+        /// The mode of transportation used for the step.
+        /// This step may use a different mode of transportation than the overall route.
+        //@property(nonatomic, readonly) enum MBTransportType transportType;
+        [Export("transportType", ArgumentSemantic.Assign)]
+        MBTransportType TransportType { get; }
 
         // @property (readonly, copy, nonatomic) NSArray<NSString *> * _Nullable destinationCodes;
         [NullAllowed, Export("destinationCodes", ArgumentSemantic.Copy)]
@@ -524,6 +546,11 @@ namespace MapboxDirections
         [NullAllowed, Export("secondaryTextComponents", ArgumentSemantic.Copy)]
         MBVisualInstructionComponent[] SecondaryTextComponents { get; }
 
+        /// Indicates what side of a bidirectional road the driver must be driving on. Also referred to as the rule of the road.
+        //@property(nonatomic) enum MBDrivingSide drivingSide;
+        [Export("drivingSide")]
+        MBDrivingSide DrivingSide { get; }
+
         // -(instancetype _Nonnull)initWithJson:(NSDictionary<NSString *,id> * _Nonnull)json;
         [Export("initWithJson:")]
         IntPtr Constructor(NSDictionary<NSString, NSObject> json);
@@ -532,11 +559,6 @@ namespace MapboxDirections
         [Export("initWithDistanceAlongStep:primaryText:primaryTextComponents:secondaryText:secondaryTextComponents:")]
         [DesignatedInitializer]
         IntPtr Constructor(double distanceAlongStep, string primaryText, MBVisualInstructionComponent[] primaryTextComponents, [NullAllowed] string secondaryText, [NullAllowed] MBVisualInstructionComponent[] secondaryTextComponents);
-
-        //// -(instancetype _Nullable)initWithCoder:(NSCoder * _Nonnull)decoder __attribute__((objc_designated_initializer));
-        //[Export("initWithCoder:")]
-        //[DesignatedInitializer]
-        //IntPtr Constructor(NSCoder decoder);
 
         // @property (nonatomic, class) BOOL supportsSecureCoding;
         [Static]
@@ -558,19 +580,41 @@ namespace MapboxDirections
         [NullAllowed, Export("imageURL", ArgumentSemantic.Copy)]
         NSUrl ImageURL { get; set; }
 
-        // -(instancetype _Nonnull)initWithJson:(NSDictionary<NSString *,id> * _Nonnull)json;
-        [Export("initWithJson:")]
-        IntPtr Constructor(NSDictionary<NSString, NSObject> json);
+        /// The type of visual instruction component. You can display the component differently depending on its type.
+        //@property(nonatomic) enum MBVisualInstructionComponentType type;
+        [Export("type")]
+        MBVisualInstructionComponentType Type { get; }
 
-        // -(instancetype _Nonnull)initWithText:(NSString * _Nullable)text imageURL:(NSURL * _Nullable)imageURL __attribute__((objc_designated_initializer));
-        [Export("initWithText:imageURL:")]
+        /// :nodoc:
+        /// The maneuver type for the <code>VisualInstruction</code>.
+        //@property(nonatomic) enum MBManeuverType maneuverType;
+        [Export("maneuverType")]
+        MBManeuverType ManeuverType { get; }
+
+        /// :nodoc:
+        /// The modifier type for the <code>VisualInstruction</code>.
+        //@property(nonatomic) enum MBManeuverDirection maneuverDirection;
+        [Export("maneuverDirection")]
+        MBManeuverDirection ManeuverDirection { get; }
+
+        /// An abbreviated version of the text for a given component.
+        //@property(nonatomic, copy) NSString* _Nullable abbreviation;
+        [Export("abbreviation")]
+        string Abbreviation { get; }
+
+        /// The priority in which the component should be abbreviated. Lower numbers should be abbreviated first.
+        //@property(nonatomic) NSInteger abbreviationPriority;
+        [Export("abbreviationPriority")]
+        nint AbbreviationPriority { get; }
+
+        //- (nonnull instancetype)initWithManeuverType:(enum MBManeuverType)maneuverType maneuverDirection:(enum MBManeuverDirection)maneuverDirection json:(NSDictionary<NSString *, id> * _Nonnull)json;
+        [Export("initWithManeuverType:maneuverDirection:json:")]
+        IntPtr Constructor(MBManeuverType maneuverType, MBManeuverDirection maneuverDirection, NSDictionary<NSString, NSObject> json);
+
+        //- (nonnull instancetype)initWithType:(enum MBVisualInstructionComponentType)type text:(NSString * _Nullable)text imageURL:(NSURL * _Nullable)imageURL maneuverType:(enum MBManeuverType)maneuverType maneuverDirection:(enum MBManeuverDirection)maneuverDirection abbreviation:(NSString * _Nullable)abbreviation abbreviationPriority:(NSInteger)abbreviationPriority OBJC_DESIGNATED_INITIALIZER;
+        [Export("initWithType:text:imageURL:maneuverType:maneuverDirection:abbreviation:abbreviationPriority:")]
         [DesignatedInitializer]
-        IntPtr Constructor([NullAllowed] string text, [NullAllowed] NSUrl imageURL);
-
-        //// -(instancetype _Nullable)initWithCoder:(NSCoder * _Nonnull)decoder __attribute__((objc_designated_initializer));
-        //[Export("initWithCoder:")]
-        //[DesignatedInitializer]
-        //IntPtr Constructor(NSCoder decoder);
+        IntPtr Constructor(MBVisualInstructionComponentType type, [NullAllowed] string text, [NullAllowed] NSUrl imageURL, MBManeuverType maneuverType, MBManeuverDirection maneuverDirection, string abbreviation, nint abbreviationPriority);
 
         // @property (nonatomic, class) BOOL supportsSecureCoding;
         [Static]
@@ -933,5 +977,94 @@ namespace MapboxDirections
         //@property(nonatomic, copy) NSLocale* _Nullable speechLocale;
         [Export("speechLocale")]
         NSLocale SpeechLocale { get; set; }
+    }
+
+    /// <summary>
+    /// A <code>Match</code> object defines a single route that was created from a series of points that were matched against a road network.
+    /// Typically, you do not create instances of this class directly. Instead, you receive match objects when you pass a <code>MatchOptions</code> object into the <code>Directions.calculate(_:completionHandler:)</code> or <code>Directions.calculateRoutes(matching:completionHandler:)</code> method.
+    /// </summary>
+    //SWIFT_CLASS_NAMED("Match")
+    //@interface MBMatch : MBDirectionsResult
+    [BaseType(typeof(MBDirectionsResult))]
+    [DisableDefaultCtor]
+    interface MBMatch
+    {
+        /// <summary>
+        /// Initializes a new match object with the given JSON dictionary representation and tracepoints.
+        /// </summary>
+        /// <param name="json">
+        /// A JSON dictionary representation of the route as returned by the Mapbox Map Matching API.
+        /// </param>
+        /// <param name="tracepoints">
+        /// An array of <code>Tracepoint</code> that the match found in order.
+        /// </param>
+        /// <param name="waypointIndices"></param>
+        /// <param name="matchOptions">
+        /// The <code>MatchOptions</code> used to create the request.
+        /// </param>
+        //- (nonnull instancetype) initWithJson:(NSDictionary<NSString*, id>* _Nonnull) json tracepoints:(NSArray<MBTracepoint*>* _Nonnull) tracepoints waypointIndices:(NSIndexSet* _Nonnull) waypointIndices matchOptions:(MBMatchOptions* _Nonnull) matchOptions;
+        [Export("initWithJson:tracepoints:waypointIndices:matchOptions:")]
+        IntPtr Constructor(NSDictionary<NSString, NSObject> json, MBTracepoint[] tracepoints, NSIndexSet waypointIndices, MBMatchOptions matchOptions);
+
+        /// <summary>
+        /// A number between 0 and 1 that indicates the Map Matching API’s confidence that the match is accurate. A higher confidence means the match is more likely to be accurate.
+        /// </summary>
+        //@property(nonatomic) float confidence;
+        [Export("confidence")]
+        float Confidence { get; set; }
+
+        /// <summary>
+        /// Tracepoints on the road network that match the tracepoints in the match options.
+        /// Any outlier tracepoint is omitted from the match. This array represents an outlier tracepoint is a <code>Tracepoint</code> object whose <code>Tracepoint.coordinate</code> property is <code>kCLLocationCoordinate2DInvalid</code>.
+        /// </summary>
+        //@property(nonatomic, copy) NSArray<MBTracepoint*>* _Nonnull tracepoints;
+        [Export("tracepoints")]
+        MBTracepoint[] Tracepoints { get; set; }
+
+        /// <summary>
+        /// Index of the waypoint inside the matched route.
+        /// </summary>
+        //@property(nonatomic, copy) NSIndexSet* _Nullable waypointIndices;
+        [Export("waypointIndices")]
+        NSIndexSet WaypointIndices { get; set; }
+
+        //- (BOOL) isEqual:(id _Nullable) object SWIFT_WARN_UNUSED_RESULT;
+        [Export("isEqual:")]
+        bool IsEqual(NSObject obj);
+
+        //- (BOOL) isEqualToMatch:(MBMatch* _Nullable) match SWIFT_WARN_UNUSED_RESULT;
+        [Export("isEqualToMatch:")]
+        bool IsEqual(MBMatch obj);
+    }
+
+    /// <summary>
+    /// A <code>MatchOptions</code> object is a structure that specifies the criteria for results returned by the Mapbox Map Matching API.
+    /// Pass an instance of this class into the <code>Directions.calculate(_:completionHandler:)</code> method.
+    /// </summary>
+    //SWIFT_CLASS_NAMED("MatchOptions")
+    //@interface MBMatchOptions : MBDirectionsOptions
+    [BaseType(typeof(MBDirectionsOptions))]
+    [DisableDefaultCtor]
+    interface MBMatchOptions
+    {
+        //- (nonnull instancetype) initWithWaypoints:(NSArray<MBWaypoint*>* _Nonnull) waypoints profileIdentifier:(MBDirectionsProfileIdentifier _Nullable) profileIdentifier OBJC_DESIGNATED_INITIALIZER;
+        [Export("initWithWaypoints:profileIdentifier:"), DesignatedInitializer]
+        IntPtr Constructor(MBWaypoint[] waypoints, string profileIdentifier);
+
+        /// <summary>
+        /// If true, the input locations are re-sampled for improved map matching results. The default is  <code>false</code>.
+        /// </summary>
+        // @property(nonatomic) BOOL resamplesTraces;
+        [Export("resamplesTraces")]
+        bool ResamplesTraces { get; set; }
+
+        /// <summary>
+        /// An index set containing indices of two or more items in <code>coordinates</code>. These will be represented by <code>Waypoint</code>s in the resulting <code>Match</code> objects.
+        /// Use this property when the <code>includesSteps</code> property is <code>true</code> or when <code>coordinates</code> represents a trace with a high sample rate. If this property is <code>nil</code>, the resulting <code>Match</code> objects contain a waypoint for each coordinate in the match options.
+        /// If specified, each index must correspond to a valid index in <code>coordinates</code>, and the index set must contain 0 and the last index (one less than <code>endIndex</code>) of <code>coordinates</code>.
+        /// </summary>
+        // @property(nonatomic, copy) NSIndexSet* _Nullable waypointIndices;
+        [Export("waypointIndices")]
+        NSIndexSet WaypointIndices { get; set; }
     }
 }
