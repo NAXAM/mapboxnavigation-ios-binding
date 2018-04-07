@@ -14,7 +14,7 @@ namespace MapboxCoreNavigation
         /// The user info dictionary indicates which keys and values changed.
         /// extern const NSNotificationName MBNavigationSettingsDidChangeNotification;
         /// </summary>
-        [Field("MBNavigationSettingsDidChangeNotification")]
+        [Field("MBNavigationSettingsDidChangeNotification", "__Internal")]
         NSString DidChangeNotification { get; }
     }
 
@@ -26,7 +26,7 @@ namespace MapboxCoreNavigation
         /// The user info dictionary contains the keys `MBRouteControllerRouteProgressKey` and `MBRouteControllerLocationKey`.
         /// </summary>
         /// extern const NSNotificationName MBRouteControllerProgressDidChangeNotification;
-        [Field("MBRouteControllerProgressDidChangeNotification")]
+        [Field("MBRouteControllerProgressDidChangeNotification", "__Internal")]
         NSString ProgressDidChangeNotification { get; }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace MapboxCoreNavigation
         /// The user info dictionary contains the key `MBRouteControllerLocationKey`.
         /// </summary>
         /// extern const NSNotificationName MBRouteControllerWillRerouteNotification;
-        [Field("MBRouteControllerWillRerouteNotification")]
+        [Field("MBRouteControllerWillRerouteNotification", "__Internal")]
         NSString WillRerouteNotification { get; }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace MapboxCoreNavigation
         /// The user info dictionary contains the keys `MBRouteControllerLocationKey` and `MBRouteControllerIsProactiveKey`.
         /// </summary>
         /// extern const NSNotificationName MBRouteControllerDidRerouteNotification;
-        [Field("MBRouteControllerDidRerouteNotification")]
+        [Field("MBRouteControllerDidRerouteNotification", "__Internal")]
         NSString DidRerouteNotification { get; }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace MapboxCoreNavigation
         /// The user info dictionary contains the key `MBRouteControllerRoutingErrorKey`.
         /// </summary>
         /// extern const NSNotificationName MBRouteControllerDidFailToRerouteNotification;
-        [Field("MBRouteControllerDidFailToRerouteNotification")]
+        [Field("MBRouteControllerDidFailToRerouteNotification", "__Internal")]
         NSString DidFailToRerouteNotification { get; }
 
         /// <summary>
@@ -58,42 +58,42 @@ namespace MapboxCoreNavigation
         /// The user info dictionary contains the key `MBRouteControllerRouteProgressKey`.
         /// </summary>
         /// extern const NSNotificationName MBRouteControllerDidPassSpokenInstructionPointNotification;
-        [Field("MBRouteControllerDidPassSpokenInstructionPointNotification")]
+        [Field("MBRouteControllerDidPassSpokenInstructionPointNotification", "__Internal")]
         NSString DidPassSpokenInstructionPointNotification { get; }
 
         /// <summary>
         /// A key in the user info dictionary of a `Notification.Name.MBRouteControllerProgressDidChange` or `Notification.Name.RouteControllerDidPassSpokenInstructionPoint` notification. The corresponding value is a `RouteProgress` object representing the current route progress.
         /// </summary>
         /// extern const MBRouteControllerNotificationUserInfoKey MBRouteControllerRouteProgressKey;
-        [Field("MBRouteControllerRouteProgressKey")]
+        [Field("MBRouteControllerRouteProgressKey", "__Internal")]
         NSString RouteProgressKey { get; }
 
         /// <summary>
         /// A key in the user info dictionary of a `Notification.Name.MBRouteControllerProgressDidChange` or `Notification.Name.RouteControllerWillReroute` notification. The corresponding value is a `CLLocation` object representing the current idealized user location.
         /// </summary>
         /// extern const MBRouteControllerNotificationUserInfoKey MBRouteControllerLocationKey;
-        [Field("MBRouteControllerLocationKey")]
+        [Field("MBRouteControllerLocationKey", "__Internal")]
         NSString LocationKey { get; }
 
         /// <summary>
         /// A key in the user info dictionary of a `Notification.Name.MBRouteControllerProgressDidChange` or `Notification.Name.RouteControllerWillReroute` notification. The corresponding value is a `CLLocation` object representing the current raw user location.
         /// </summary>
         /// extern const MBRouteControllerNotificationUserInfoKey MBRouteControllerRawLocationKey;
-        [Field("MBRouteControllerRawLocationKey")]
+        [Field("MBRouteControllerRawLocationKey", "__Internal")]
         NSString RawLocationKey { get; }
 
         /// <summary>
         /// A key in the user info dictionary of a `Notification.Name.RouteControllerDidFailToReroute` notification. The corresponding value is an `NSError` object indicating why `RouteController` was unable to calculate a new route.
         /// </summary>
         /// extern const MBRouteControllerNotificationUserInfoKey MBRouteControllerRoutingErrorKey;
-        [Field("MBRouteControllerRoutingErrorKey")]
+        [Field("MBRouteControllerRoutingErrorKey", "__Internal")]
         NSString RoutingErrorKey { get; }
 
         /// <summary>
         /// A key in the user info dictionary of a `Notification.Name.RouteControllerDidReroute` notification. The corresponding value is an `NSNumber` instance containing a Boolean value indicating whether `RouteController` proactively rerouted the user onto a faster route.
         /// </summary>
         /// extern const MBRouteControllerNotificationUserInfoKey MBRouteControllerIsProactiveKey;
-        [Field("MBRouteControllerIsProactiveKey")]
+        [Field("MBRouteControllerIsProactiveKey", "__Internal")]
         NSString IsProactiveKey { get; }
     }
 
@@ -103,7 +103,7 @@ namespace MapboxCoreNavigation
         /// Constant representing the domain in which errors created in this library will live under.
         /// </summary>
         /// extern NSString *const MBErrorDomain;
-        [Field("MBErrorDomain")]
+        [Field("MBErrorDomain", "__Internal")]
         NSString ErrorDomain { get; }
     }
 
@@ -117,10 +117,13 @@ namespace MapboxCoreNavigation
         [DesignatedInitializer]
         IntPtr Constructor (bool approximate);
 
-        //// -(instancetype _Nullable)initWithCoder:(NSCoder * _Nonnull)decoder __attribute__((objc_designated_initializer));
-        //[Export ("initWithCoder:")]
-        //[DesignatedInitializer]
-        //IntPtr Constructor (NSCoder decoder);
+        /// <summary>
+        /// Returns an attributed string containing the formatted, converted distance.
+        /// <code>NSAttributedStringKey.quantity</code> is applied to the numeric quantity.
+        /// </summary>
+        // - (NSAttributedString* _Nullable) attributedStringForObjectValue:(id _Nonnull) obj withDefaultAttributes:(NSDictionary<NSAttributedStringKey, id>* _Nullable) attrs SWIFT_WARN_UNUSED_RESULT;
+        [Export("attributedStringForObjectValue:withDefaultAttributes:")]
+        NSAttributedString AttributedStringForObjectValue(NSObject obj, [NullAllowed] NSDictionary<NSString, NSObject> attrs);
 
         /// -(NSString * _Nonnull)stringFrom:(CLLocationDistance)distance __attribute__((warn_unused_result));
         [Export ("stringFrom:")]
@@ -135,6 +138,9 @@ namespace MapboxCoreNavigation
     [BaseType (typeof(CLLocationManager))]
     interface MBNavigationLocationManager
     {
+        // @property (nonatomic) CLLocationAccuracy desiredAccuracy;
+        [Export("desiredAccuracy")]
+        double DesiredAccuracy { get; set; }
     }
 
     // @interface MBNavigationRouteOptions
