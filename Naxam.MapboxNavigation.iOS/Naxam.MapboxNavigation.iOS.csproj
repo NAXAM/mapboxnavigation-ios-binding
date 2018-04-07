@@ -31,9 +31,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="Xamarin.iOS" />
-    <Reference Include="Naxam.Mapbox.iOS">
-      <HintPath>..\packages\Naxam.Mapbox.iOS.3.7.0.1\lib\Xamarin.iOS10\Naxam.Mapbox.iOS.dll</HintPath>
-    </Reference>
     <Reference Include="Xbindings.AWSCore.iOS">
       <HintPath>..\packages\Xbindings.AWSCore.iOS.2.6.8\lib\Xamarin.iOS10\Xbindings.AWSCore.iOS.dll</HintPath>
     </Reference>
@@ -43,8 +40,8 @@
     <Reference Include="Ricardo.SDWebImage.iOS">
       <HintPath>..\packages\Ricardo.SDWebImage.iOS.4.2.2.1\lib\Xamarin.iOS10\Ricardo.SDWebImage.iOS.dll</HintPath>
     </Reference>
-    <Reference Include="Xbindings.MapboxMobileEvents.iOS">
-      <HintPath>..\packages\Xbindings.MapboxMobileEvents.iOS.0.11.0\lib\Xamarin.iOS10\Xbindings.MapboxMobileEvents.iOS.dll</HintPath>
+    <Reference Include="Naxam.Mapbox.iOS">
+      <HintPath>..\packages\Naxam.Mapbox.iOS.3.7.6\lib\Xamarin.iOS10\Naxam.Mapbox.iOS.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
