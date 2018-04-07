@@ -97,6 +97,16 @@ namespace MapboxCoreNavigation
         NSString IsProactiveKey { get; }
     }
 
+    [Static]
+    partial interface MBNotificationKey {
+        /// <summary>
+        /// Constant representing the domain in which errors created in this library will live under.
+        /// </summary>
+        /// extern NSString *const MBErrorDomain;
+        [Field("MBErrorDomain")]
+        NSString ErrorDomain { get; }
+    }
+
     // @interface MBDistanceFormatter : NSLengthFormatter
     [BaseType (typeof(NSLengthFormatter))]
     [DisableDefaultCtor]
