@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Naxam.MapboxCoreNavigation.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "demo", "demo", "{41E72820-4213-4382-A037-F89509254A4E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Naxam.MapboxSpeech.iOS", "Naxam.MapboxSpeech.iOS\Naxam.MapboxSpeech.iOS.csproj", "{16EA2278-2E14-4368-8771-7E7E24C2E185}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|iPhoneSimulator = Debug|iPhoneSimulator
@@ -51,6 +53,14 @@ Global
 		{41C7D51E-DEF5-4765-A608-D3153C8082B4}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{41C7D51E-DEF5-4765-A608-D3153C8082B4}.Debug|iPhone.ActiveCfg = Debug|Any CPU
 		{41C7D51E-DEF5-4765-A608-D3153C8082B4}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{16EA2278-2E14-4368-8771-7E7E24C2E185}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{16EA2278-2E14-4368-8771-7E7E24C2E185}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{16EA2278-2E14-4368-8771-7E7E24C2E185}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{16EA2278-2E14-4368-8771-7E7E24C2E185}.Release|iPhone.Build.0 = Release|Any CPU
+		{16EA2278-2E14-4368-8771-7E7E24C2E185}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{16EA2278-2E14-4368-8771-7E7E24C2E185}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{16EA2278-2E14-4368-8771-7E7E24C2E185}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{16EA2278-2E14-4368-8771-7E7E24C2E185}.Debug|iPhone.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{35431F2F-A310-49C5-BDAE-D2671214A83A} = {41E72820-4213-4382-A037-F89509254A4E}

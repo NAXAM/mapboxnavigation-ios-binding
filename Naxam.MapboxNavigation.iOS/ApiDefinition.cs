@@ -9,6 +9,7 @@ using Foundation;
 using Mapbox;
 using MapboxCoreNavigation;
 using MapboxDirections;
+using MapboxSpeech;
 using ObjCRuntime;
 using UIKit;
 
@@ -394,14 +395,12 @@ namespace MapboxNavigation
     {
         // -(instancetype _Nonnull)initWithFrame:(CGRect)frame __attribute__((objc_designated_initializer));
         [Export("initWithFrame:")]
-        [DesignatedInitializer]
+        [Unavailable(PlatformName.iOS)]
         IntPtr Constructor(CGRect frame);
-    }
 
-    // @interface MBLanesContainerView : MBLanesView
-    [BaseType(typeof(MBLanesView))]
-    interface MBLanesContainerView
-    {
+        //- (void) prepareForInterfaceBuilder;
+        [Export("prepareForInterfaceBuilder")]
+        void PrepareForInterfaceBuilder();
     }
 
     // @interface MBLanesStyleKit : NSObject
@@ -477,6 +476,10 @@ namespace MapboxNavigation
         // @property (nonatomic) BOOL isEnd;
         [Export("isEnd")]
         bool IsEnd { get; set; }
+
+        //@property(nonatomic, strong) MBVisualInstruction* _Nullable visualInstruction;
+        [Export("visualInstruction"), NullAllowed]
+        MBVisualInstruction VisualInstruction { get; set; }
 
         // -(void)drawRect:(CGRect)rect;
         [Export("drawRect:")]
@@ -846,9 +849,10 @@ namespace MapboxNavigation
     // @protocol MBStyleManagerDelegate <NSObject>
     [Protocol, Model]
     [BaseType(typeof(NSObject))]
-    interface MBStyleManagerDelegate {
-    // /// Asks the delegate for a location to use when calculating sunset and sunrise.
-    // - (CLLocation * _Nonnull)locationForStyleManager:(MBStyleManager * _Nonnull)styleManager SWIFT_WARN_UNUSED_RESULT;
+    interface MBStyleManagerDelegate
+    {
+        // /// Asks the delegate for a location to use when calculating sunset and sunrise.
+        // - (CLLocation * _Nonnull)locationForStyleManager:(MBStyleManager * _Nonnull)styleManager SWIFT_WARN_UNUSED_RESULT;
         [Abstract, Export("locationForStyleManager:")]
         CLLocation MBStyleManager_locationForStyleManager(MBStyleManager styleManager);
         // @optional
@@ -867,7 +871,7 @@ namespace MapboxNavigation
     [BaseType(typeof(MBNavigationViewController))]
     interface MBNavigationViewController_MBStyleManager
     {
-    // - (CLLocation * _Nonnull)locationForStyleManager:(MBStyleManager * _Nonnull)styleManager SWIFT_WARN_UNUSED_RESULT;
+        // - (CLLocation * _Nonnull)locationForStyleManager:(MBStyleManager * _Nonnull)styleManager SWIFT_WARN_UNUSED_RESULT;
         [Export("locationForStyleManager:")]
         CLLocation MBStyleManager_locationForStyleManager(MBStyleManager styleManager);
         // - (void)styleManager:(MBStyleManager * _Nonnull)styleManager didApply:(MBStyle * _Nonnull)style;
@@ -1043,81 +1047,6 @@ namespace MapboxNavigation
         void Apply();
     }
 
-    // @interface MBRouteVoiceController : NSObject <AVAudioPlayerDelegate, AVSpeechSynthesizerDelegate>
-    [BaseType(typeof(NSObject))]
-    interface MBRouteVoiceController : IAVAudioPlayerDelegate, IAVSpeechSynthesizerDelegate
-    {
-        // @property (nonatomic) BOOL isEnabled;
-        [Export("isEnabled")]
-        bool IsEnabled { get; set; }
-
-        // @property (nonatomic) float volume;
-        [Export("volume")]
-        float Volume { get; set; }
-
-        // @property (nonatomic) double instructionVoiceSpeedRate;
-        [Export("instructionVoiceSpeedRate")]
-        double InstructionVoiceSpeedRate { get; set; }
-
-        // @property (copy, nonatomic) NSString * _Nonnull instructionVoiceVolume;
-        [Export("instructionVoiceVolume")]
-        string InstructionVoiceVolume { get; set; }
-
-        // @property (nonatomic) BOOL playRerouteSound;
-        [Export("playRerouteSound")]
-        bool PlayRerouteSound { get; set; }
-
-        // @property (nonatomic, strong) AVAudioPlayer * _Nonnull rerouteSoundPlayer;
-        [Export("rerouteSoundPlayer", ArgumentSemantic.Strong)]
-        AVAudioPlayer RerouteSoundPlayer { get; set; }
-
-        // @property (nonatomic) NSTimeInterval bufferBetweenAnnouncements;
-        [Export("bufferBetweenAnnouncements")]
-        double BufferBetweenAnnouncements { get; set; }
-
-        // -(void)audioPlayerDidFinishPlaying:(AVAudioPlayer * _Nonnull)player successfully:(BOOL)flag;
-        [Export("audioPlayerDidFinishPlaying:successfully:")]
-        void AudioPlayerDidFinishPlaying(AVAudioPlayer player, bool flag);
-
-        // -(void)speechSynthesizer:(AVSpeechSynthesizer * _Nonnull)synthesizer didFinishSpeechUtterance:(AVSpeechUtterance * _Nonnull)utterance;
-        [Export("speechSynthesizer:didFinishSpeechUtterance:")]
-        void SpeechSynthesizer(AVSpeechSynthesizer synthesizer, AVSpeechUtterance utterance);
-
-        // -(void)didPassSpokenInstructionPointWithNotification:(NSNotification * _Nonnull)notification;
-        [Export("didPassSpokenInstructionPointWithNotification:")]
-        void DidPassSpokenInstructionPointWithNotification(NSNotification notification);
-    }
-
-    // @interface MBPollyVoiceController : MBRouteVoiceController
-    [BaseType(typeof(MBRouteVoiceController))]
-    [DisableDefaultCtor]
-    interface MBPollyVoiceController
-    {
-        // @property (nonatomic) int globalVoiceId;
-        [Export("globalVoiceId")]
-        AWSPollyVoiceId GlobalVoiceId { get; set; }
-
-        // @property (nonatomic) int regionType;
-        [Export("regionType")]
-        AWSRegionType RegionType { get; }
-
-        // @property (copy, nonatomic) NSString * _Nonnull identityPoolId;
-        [Export("identityPoolId")]
-        string IdentityPoolId { get; set; }
-
-        // @property (nonatomic) NSTimeInterval timeoutIntervalForRequest;
-        [Export("timeoutIntervalForRequest")]
-        double TimeoutIntervalForRequest { get; set; }
-
-        // @property (nonatomic) NSInteger stepsAheadToCache;
-        [Export("stepsAheadToCache")]
-        nint StepsAheadToCache { get; set; }
-
-        // -(void)didPassSpokenInstructionPointWithNotification:(NSNotification * _Nonnull)notification;
-        [Export("didPassSpokenInstructionPointWithNotification:")]
-        void DidPassSpokenInstructionPointWithNotification(NSNotification notification);
-    }
-
     // @interface MBPrimaryLabel : MBInstructionLabel
     [BaseType(typeof(MBInstructionLabel))]
     interface MBPrimaryLabel
@@ -1229,7 +1158,7 @@ namespace MapboxNavigation
 
     // @interface MBStepsViewController : UIViewController
     [BaseType(typeof(UIViewController))]
-    partial interface MBStepsViewController: IUITableViewDelegate,IUITableViewDataSource
+    partial interface MBStepsViewController : IUITableViewDelegate, IUITableViewDataSource
     {
         // -(void)viewDidLoad;
         [Export("viewDidLoad")]
@@ -1287,9 +1216,9 @@ namespace MapboxNavigation
 
     // @interface MBStyleManager : NSObject
     [BaseType(typeof(NSObject))]
-    interface MBStyleManager 
+    interface MBStyleManager
     {
-    // - (nonnull instancetype)init SWIFT_UNAVAILABLE;
+        // - (nonnull instancetype)init SWIFT_UNAVAILABLE;
     }
 
     // @interface MBSubtitleLabel : MBStylableLabel
@@ -1382,6 +1311,17 @@ namespace MapboxNavigation
 
     }
 
+    [Static]
+    partial interface MBSpokenInstructionKey
+    {
+        /// <summary>
+        /// Key used for constructing errors when spoken instructions fail.
+        /// </summary>
+        //extern const NSErrorUserInfoKey MBSpokenInstructionErrorCodeKey;
+        [Field("MBSpokenInstructionErrorCodeKey", "__Internal")]
+        NSString ErrorCode { get; }
+    }
+
     // @protocol MBVoiceControllerDelegate
     [Protocol, Model]
     [BaseType(typeof(NSObject))]
@@ -1422,5 +1362,178 @@ namespace MapboxNavigation
         [Export("initWithFrame:")]
         [DesignatedInitializer]
         IntPtr Constructor(CGRect frame);
+    }
+
+    ///// A cache consists of both in-memory and on-disk components, both of which can be reset.
+    //SWIFT_PROTOCOL_NAMED("BimodalCache")
+    //@protocol MBBimodalCache
+    [Protocol, Model, BaseType(typeof(NSObject))]
+    partial interface MBBimodalCache
+    {
+        //- (void) clearMemory;
+        [Export("clearMemory")]
+        void ClearMemory();
+
+        //- (void) clearDiskWithCompletion:(void (^ _Nullable)(void))completion;
+        [Export("clearDiskWithCompletion:")]
+        void ClearDiskWithCompletion([NullAllowed] Action completion);
+    }
+
+
+    ///// A cache which supports storing data
+    //SWIFT_PROTOCOL_NAMED("BimodalDataCache")
+    //@protocol MBBimodalDataCache<MBBimodalCache>
+    [Protocol, Model, BaseType(typeof(MBBimodalCache))]
+    partial interface MBBimodalDataCache
+    {
+        //- (void) store:(NSData* _Nonnull) data forKey:(NSString* _Nonnull) key toDisk:(BOOL) toDisk completion:(void (^ _Nullable)(void))completionBlock;
+        [Export("store:forKey:toDisk:completion:")]
+        void Store(UIImage image, string key, bool toDisk, [NullAllowed] Action completion);
+
+        //- (NSData* _Nullable) dataForKey:(NSString* _Nullable) forKey SWIFT_WARN_UNUSED_RESULT;
+        [Export("dataForKey:")]
+        [return: NullAllowed]
+        NSData DataForKey([NullAllowed] string key);
+    }
+
+    /// A cache which supports storing images
+    //@protocol MBBimodalImageCache<MBBimodalCache>
+    [Protocol, Model, BaseType(typeof(MBBimodalCache))]
+    partial interface MBBimodalImageCache
+    {
+        //- (void) store:(UIImage* _Nonnull) image forKey:(NSString* _Nonnull) key toDisk:(BOOL) toDisk completion:(void (^ _Nullable)(void))completionBlock;
+        [Export("store:forKey:toDisk:completion:")]
+        void Store(UIImage image, string key, bool toDisk, [NullAllowed] Action completion);
+
+        //- (UIImage* _Nullable) imageForKey:(NSString* _Nullable) forKey SWIFT_WARN_UNUSED_RESULT;
+        [Export("imageForKey:")]
+        [return: NullAllowed]
+        UIImage ImageForKey([NullAllowed] string key);
+    }
+
+    //@interface MBDataCache : NSObject<MBBimodalDataCache>
+    [BaseType(typeof(NSObject))]
+    partial interface MBDataCache : MBBimodalDataCache 
+    {
+        //- (void) store:(NSData* _Nonnull) data forKey:(NSString* _Nonnull) key toDisk:(BOOL) toDisk completion:(void (^ _Nullable)(void))completion;
+        [Export("store:forKey:toDisk:completion:")]
+        void Store(UIImage image, string key, bool toDisk, [NullAllowed] Action completion);
+
+        //- (NSData* _Nullable) dataForKey:(NSString* _Nullable) key SWIFT_WARN_UNUSED_RESULT;
+        [Export("dataForKey:")]
+        [return: NullAllowed]
+        NSData DataForKey([NullAllowed] string key);
+
+        //- (void) clearMemory;
+        [Export("clearMemory")]
+        void ClearMemory();
+
+        //- (void) clearDiskWithCompletion:(void (^ _Nullable)(void))completion;
+        [Export("clearDiskWithCompletion:")]
+        void ClearDiskWithCompletion([NullAllowed] Action completion);
+    }
+
+    //    /// The <code>RouteVoiceController</code> class provides voice guidance.
+    //    SWIFT_CLASS_NAMED("RouteVoiceController")
+    //@interface MBRouteVoiceController : NSObject<AVAudioPlayerDelegate, AVSpeechSynthesizerDelegate>
+    [BaseType(typeof(NSObject))]
+    partial interface MBRouteVoiceController : IAVAudioPlayerDelegate, IAVSpeechSynthesizerDelegate
+    {
+        ///// A boolean value indicating whether instructions should be announced by voice or not.
+        //@property(nonatomic) BOOL isEnabled;
+        [Export("isEnabled")]
+        bool IsEnabled { get; set; }
+
+        //    /// Volume of announcements.
+        //    @property(nonatomic) float volume;
+        [Export("volume")]
+        float Volume { get; set; }
+
+        //    /// SSML option which controls at which speed Polly instructions are read.
+        //    @property(nonatomic) double instructionVoiceSpeedRate;
+        [Export("instructionVoiceSpeedRate")]
+        double InstructionVoiceSpeedRate { get; set; }
+
+        //    /// SSML option that specifies the voice loudness.
+        //    @property(nonatomic, copy) NSString* _Nonnull instructionVoiceVolume;
+        [Export("instructionVoiceVolume")]
+        string InstructionVoiceVolume { get; set; }
+
+        ///// If true, a noise indicating the user is going to be rerouted will play prior to rerouting.
+        //@property(nonatomic) BOOL playRerouteSound;
+        [Export("playRerouteSound")]
+        bool PlayRerouteSound { get; set; }
+
+        //    /// Sound to play prior to reroute. Inherits volume level from <code>volume</code>.
+        //    @property(nonatomic, strong) AVAudioPlayer* _Nonnull rerouteSoundPlayer;
+        ///// Buffer time between announcements. After an announcement is given any announcement given within this <code>TimeInterval</code> will be suppressed.
+        //@property(nonatomic) NSTimeInterval bufferBetweenAnnouncements;
+        [Export("bufferBetweenAnnouncements")]
+        double BufferBetweenAnnouncements { get; set; }
+
+        //- (void) audioPlayerDidFinishPlaying:(AVAudioPlayer* _Nonnull) player successfully:(BOOL) flag;
+        [Export("audioPlayerDidFinishPlaying:successfully:")]
+        void AudioPlayerDidFinishPlaying(AVAudioPlayer player, bool successfully);
+
+        //- (void) speechSynthesizer:(AVSpeechSynthesizer* _Nonnull) synthesizer didFinishSpeechUtterance:(AVSpeechUtterance* _Nonnull) utterance;
+        [Export("speechSynthesizer:didFinishSpeechUtterance:")]
+        void SpeechSynthesizer(AVSpeechSynthesizer synthesizer, AVSpeechUtterance utterance);
+
+        //- (void) didPassSpokenInstructionPointWithNotification:(NSNotification* _Nonnull) notification;
+        [Export("didPassSpokenInstructionPointWithNotification:")]
+        void DidPassSpokenInstructionPointWithNotification(NSNotification notification);
+    }
+
+    partial interface IMBBimodalDataCache {}
+
+    //    /// <code>MapboxVoiceController</code> extends the default <code>RouteVoiceController</code> by providing a more robust speech synthesizer via the Mapbox Speech API. <code>RouteVoiceController</code> will be used as a fallback during poor network conditions.
+    //    SWIFT_CLASS_NAMED("MapboxVoiceController")
+    //@interface MBMapboxVoiceController : MBRouteVoiceController
+    [BaseType(typeof(MBRouteVoiceController)), DisableDefaultCtor]
+    partial interface MBMapboxVoiceController
+    {
+        ///// Number of seconds a request can wait before it is canceled and the default speech synthesizer speaks the instruction.
+        //@property(nonatomic) NSTimeInterval timeoutIntervalForRequest;
+        [Export("timeoutIntervalForRequest")]
+        double TimeoutIntervalForRequest { get; set; }
+
+        //    /// Number of steps ahead of the current step to cache spoken instructions.
+        //    @property(nonatomic) NSInteger stepsAheadToCache;
+        [Export("stepsAheadToCache")]
+        nint StepsAheadToCache { get; set; }
+
+        //- (nonnull instancetype) initWithSpeechClient:(MBSpeechSynthesizer* _Nonnull) speechClient dataCache:(id<MBBimodalDataCache> _Nonnull) dataCache OBJC_DESIGNATED_INITIALIZER;
+        [Export("initWithSpeechClient:dataCache:"), DesignatedInitializer]
+        IntPtr Constructor(MBSpeechSynthesizer speechClient, IMBBimodalDataCache dataCache);
+
+        //- (void) didPassSpokenInstructionPointWithNotification:(NSNotification* _Nonnull) notification;
+        [Export("didPassSpokenInstructionPointWithNotification:")]
+        void DidPassSpokenInstructionPointWithNotification(NSNotification notification);
+
+        ///// Speaks an instruction.
+        ///// The cache is first checked to see if we have already downloaded the speech file. If not, the instruction is fetched and played. If there is an error anywhere along the way, the instruction will be spoken with the default speech synthesizer.
+        //- (void) speak:(MBSpokenInstruction* _Nonnull) instruction;
+        [Export("speak:")]
+        void Speak(MBSpokenInstruction instruction);
+
+        ///// Speaks an instruction with the built in speech synthesizer.
+        ///// This method should be used in cases where <code>fetch(instruction:)</code> or <code>play(_:)</code> fails.
+        //- (void) speakWithDefaultSpeechSynthesizer:(MBSpokenInstruction* _Nonnull) instruction error:(NSError* _Nullable) error;
+        [Export("speakWithDefaultSpeechSynthesizer:error:")]
+        void SpeakWithDefaultSpeechSynthesizer(MBSpokenInstruction instruction, [NullAllowed] NSError error);
+        ///// Fetches and plays an instruction.
+        //- (void) fetchAndSpeakWithInstruction:(MBSpokenInstruction* _Nonnull) instruction;
+        [Export("fetchAndSpeakWithInstruction:")]
+        void FetchAndSpeakWithInstruction(MBSpokenInstruction instruction);
+
+        ///// Caches an instruction in an in-memory cache.
+        //- (void) downloadAndCacheSpokenInstructionWithInstruction:(MBSpokenInstruction* _Nonnull) instruction;
+        [Export("downloadAndCacheSpokenInstructionWithInstruction:")]
+        void DownloadAndCacheSpokenInstructionWithInstruction(MBSpokenInstruction instruction);
+
+        ///// Plays an audio file.
+        //- (void) play:(NSData* _Nonnull) data;
+        [Export("play:")]
+        void Play(NSData data);
     }
 }

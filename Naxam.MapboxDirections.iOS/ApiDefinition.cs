@@ -631,11 +631,6 @@ namespace MapboxDirections
     [DisableDefaultCtor]
     interface MBWaypoint : INSCopying, INSSecureCoding
     {
-        //SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) BOOL supportsSecureCoding;)
-        //+ (BOOL) supportsSecureCoding SWIFT_WARN_UNUSED_RESULT;
-        [Static, Export("supportsSecureCoding")]
-        bool SupportsSecureCoding { get; set; }
-
         /// <summary>
         /// Initializes a new waypoint object with the given geographic coordinate and an optional accuracy and name.
         /// </summary>
@@ -673,10 +668,6 @@ namespace MapboxDirections
         [Export("initWithLocation:heading:name:")]
         [DesignatedInitializer]
         IntPtr Constructor(CLLocation location, [NullAllowed] CLHeading heading, [NullAllowed] string name);
-
-        // - (void) encodeWithCoder:(NSCoder* _Nonnull) coder;
-        [Export("encodeWithCoder:")]
-        void EncodeWithCoder(NSCoder coder);
 
         /// <summary>
         /// The geographic coordinate of the waypoint.

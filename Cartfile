@@ -1,2 +1,2 @@
 # Require version 2.3.1 or later
-github "mapbox/mapbox-navigation-ios" >= 0.12
+github "mapbox/mapbox-navigation-ios" >= 0.16.0

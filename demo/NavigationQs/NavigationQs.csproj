@@ -84,63 +84,6 @@
     <Reference Include="Xamarin.Swift4">
       <HintPath>..\..\packages\Xamarin.Swift4.4.0.0.0\lib\xamarinios10\Xamarin.Swift4.dll</HintPath>
     </Reference>
-    <Reference Include="Xamarin.Swift4.Foundation">
-      <HintPath>..\..\packages\Xamarin.Swift4.Foundation.4.0.3\lib\xamarinios10\Xamarin.Swift4.Foundation.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Swift4.UIKit">
-      <HintPath>..\..\packages\Xamarin.Swift4.UIKit.4.0.3\lib\xamarinios10\Xamarin.Swift4.UIKit.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Swift4.Darwin">
-      <HintPath>..\..\packages\Xamarin.Swift4.Darwin.4.0.3\lib\xamarinios10\Xamarin.Swift4.Darwin.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Swift4.Dispatch">
-      <HintPath>..\..\packages\Xamarin.Swift4.Dispatch.4.0.3\lib\xamarinios10\Xamarin.Swift4.Dispatch.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Swift4.CoreImage">
-      <HintPath>..\..\packages\Xamarin.Swift4.CoreImage.4.0.3\lib\xamarinios10\Xamarin.Swift4.CoreImage.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Swift4.MapKit">
-      <HintPath>..\..\packages\Xamarin.Swift4.MapKit.4.0.3\lib\xamarinios10\Xamarin.Swift4.MapKit.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Swift4.Core">
-      <HintPath>..\..\packages\Xamarin.Swift4.Core.4.0.3\lib\xamarinios10\Xamarin.Swift4.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Swift4.CoreLocation">
-      <HintPath>..\..\packages\Xamarin.Swift4.CoreLocation.4.0.3\lib\xamarinios10\Xamarin.Swift4.CoreLocation.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Swift4.CoreFoundation">
-      <HintPath>..\..\packages\Xamarin.Swift4.CoreFoundation.4.0.3\lib\xamarinios10\Xamarin.Swift4.CoreFoundation.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Swift4.ObjectiveC">
-      <HintPath>..\..\packages\Xamarin.Swift4.ObjectiveC.4.0.3\lib\xamarinios10\Xamarin.Swift4.ObjectiveC.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Swift4.AVFoundation">
-      <HintPath>..\..\packages\Xamarin.Swift4.AVFoundation.4.0.3\lib\xamarinios10\Xamarin.Swift4.AVFoundation.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Swift4.CoreAudio">
-      <HintPath>..\..\packages\Xamarin.Swift4.CoreAudio.4.0.3\lib\xamarinios10\Xamarin.Swift4.CoreAudio.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Swift4.CoreData">
-      <HintPath>..\..\packages\Xamarin.Swift4.CoreData.4.0.3\lib\xamarinios10\Xamarin.Swift4.CoreData.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Swift4.CoreGraphics">
-      <HintPath>..\..\packages\Xamarin.Swift4.CoreGraphics.4.0.3\lib\xamarinios10\Xamarin.Swift4.CoreGraphics.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Swift4.CoreMedia">
-      <HintPath>..\..\packages\Xamarin.Swift4.CoreMedia.4.0.3\lib\xamarinios10\Xamarin.Swift4.CoreMedia.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Swift4.Metal">
-      <HintPath>..\..\packages\Xamarin.Swift4.Metal.4.0.3\lib\xamarinios10\Xamarin.Swift4.Metal.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Swift4.SIMD">
-      <HintPath>..\..\packages\Xamarin.Swift4.SIMD.4.0.3\lib\xamarinios10\Xamarin.Swift4.SIMD.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Swift4.QuartzCore">
-      <HintPath>..\..\packages\Xamarin.Swift4.QuartzCore.4.0.3\lib\xamarinios10\Xamarin.Swift4.QuartzCore.dll</HintPath>
-    </Reference>
-    <Reference Include="Naxam.Mapbox.iOS">
-      <HintPath>..\..\packages\Naxam.Mapbox.iOS.3.7.0.1\lib\Xamarin.iOS10\Naxam.Mapbox.iOS.dll</HintPath>
-    </Reference>
     <Reference Include="Ricardo.SDWebImage.iOS">
       <HintPath>..\..\packages\Ricardo.SDWebImage.iOS.4.2.2.1\lib\Xamarin.iOS10\Ricardo.SDWebImage.iOS.dll</HintPath>
     </Reference>
@@ -150,11 +93,68 @@
     <Reference Include="Xbindings.AWSPolly.iOS">
       <HintPath>..\..\packages\Xbindings.AWSPolly.iOS.2.6.8\lib\Xamarin.iOS10\Xbindings.AWSPolly.iOS.dll</HintPath>
     </Reference>
-    <Reference Include="Xamarin.Swift4.OS">
-      <HintPath>..\..\packages\Xamarin.Swift4.OS.4.0.3\lib\xamarinios10\Xamarin.Swift4.OS.dll</HintPath>
-    </Reference>
     <Reference Include="Xbindings.MapboxMobileEvents.iOS">
       <HintPath>..\..\packages\Xbindings.MapboxMobileEvents.iOS.0.11.0\lib\Xamarin.iOS10\Xbindings.MapboxMobileEvents.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="Naxam.Mapbox.iOS">
+      <HintPath>..\..\packages\Naxam.Mapbox.iOS.3.7.6\lib\Xamarin.iOS10\Naxam.Mapbox.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Swift4.AVFoundation">
+      <HintPath>..\..\packages\Xamarin.Swift4.AVFoundation.4.1.0\lib\xamarinios10\Xamarin.Swift4.AVFoundation.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Swift4.Core">
+      <HintPath>..\..\packages\Xamarin.Swift4.Core.4.1.0\lib\xamarinios10\Xamarin.Swift4.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Swift4.CoreAudio">
+      <HintPath>..\..\packages\Xamarin.Swift4.CoreAudio.4.1.0\lib\xamarinios10\Xamarin.Swift4.CoreAudio.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Swift4.CoreData">
+      <HintPath>..\..\packages\Xamarin.Swift4.CoreData.4.1.0\lib\xamarinios10\Xamarin.Swift4.CoreData.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Swift4.CoreFoundation">
+      <HintPath>..\..\packages\Xamarin.Swift4.CoreFoundation.4.1.0\lib\xamarinios10\Xamarin.Swift4.CoreFoundation.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Swift4.CoreGraphics">
+      <HintPath>..\..\packages\Xamarin.Swift4.CoreGraphics.4.1.0\lib\xamarinios10\Xamarin.Swift4.CoreGraphics.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Swift4.CoreImage">
+      <HintPath>..\..\packages\Xamarin.Swift4.CoreImage.4.1.0\lib\xamarinios10\Xamarin.Swift4.CoreImage.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Swift4.CoreLocation">
+      <HintPath>..\..\packages\Xamarin.Swift4.CoreLocation.4.1.0\lib\xamarinios10\Xamarin.Swift4.CoreLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Swift4.CoreMedia">
+      <HintPath>..\..\packages\Xamarin.Swift4.CoreMedia.4.1.0\lib\xamarinios10\Xamarin.Swift4.CoreMedia.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Swift4.Darwin">
+      <HintPath>..\..\packages\Xamarin.Swift4.Darwin.4.1.0\lib\xamarinios10\Xamarin.Swift4.Darwin.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Swift4.Dispatch">
+      <HintPath>..\..\packages\Xamarin.Swift4.Dispatch.4.1.0\lib\xamarinios10\Xamarin.Swift4.Dispatch.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Swift4.Foundation">
+      <HintPath>..\..\packages\Xamarin.Swift4.Foundation.4.1.0\lib\xamarinios10\Xamarin.Swift4.Foundation.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Swift4.MapKit">
+      <HintPath>..\..\packages\Xamarin.Swift4.MapKit.4.1.0\lib\xamarinios10\Xamarin.Swift4.MapKit.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Swift4.Metal">
+      <HintPath>..\..\packages\Xamarin.Swift4.Metal.4.1.0\lib\xamarinios10\Xamarin.Swift4.Metal.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Swift4.ObjectiveC">
+      <HintPath>..\..\packages\Xamarin.Swift4.ObjectiveC.4.1.0\lib\xamarinios10\Xamarin.Swift4.ObjectiveC.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Swift4.OS">
+      <HintPath>..\..\packages\Xamarin.Swift4.OS.4.1.0\lib\xamarinios10\Xamarin.Swift4.OS.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Swift4.QuartzCore">
+      <HintPath>..\..\packages\Xamarin.Swift4.QuartzCore.4.1.0\lib\xamarinios10\Xamarin.Swift4.QuartzCore.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Swift4.SIMD">
+      <HintPath>..\..\packages\Xamarin.Swift4.SIMD.4.1.0\lib\xamarinios10\Xamarin.Swift4.SIMD.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Swift4.UIKit">
+      <HintPath>..\..\packages\Xamarin.Swift4.UIKit.4.1.0\lib\xamarinios10\Xamarin.Swift4.UIKit.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -193,6 +193,10 @@
     <ProjectReference Include="..\..\Naxam.MapboxCoreNavigation.iOS\Naxam.MapboxCoreNavigation.iOS.csproj">
       <Project>{41C7D51E-DEF5-4765-A608-D3153C8082B4}</Project>
       <Name>Naxam.MapboxCoreNavigation.iOS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Naxam.MapboxSpeech.iOS\Naxam.MapboxSpeech.iOS.csproj">
+      <Project>{16EA2278-2E14-4368-8771-7E7E24C2E185}</Project>
+      <Name>Naxam.MapboxSpeech.iOS</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
