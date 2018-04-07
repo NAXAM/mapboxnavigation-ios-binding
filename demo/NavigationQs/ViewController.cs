@@ -104,7 +104,7 @@ namespace NavigationQs
             options,
             (waypoints, routes, error) =>
             {
-                if (routes == null || routes.Count == 0)
+                if (routes == null || routes.Length == 0)
                 {
                     string errorMessage = "No routes found";
                     if (error != null)
