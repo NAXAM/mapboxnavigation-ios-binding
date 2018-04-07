@@ -33,10 +33,34 @@ namespace MapboxDirections
     [Native]
     public enum MBRoadClasses : ulong
     {
+        /// <summary>
+        /// The road segment is [tolled](https://wiki.openstreetmap.org/wiki/Key:toll).
+        /// </summary>
         Toll = (1 << 1),
+        
+        /// <summary>
+        /// The road segment has access restrictions.
+        /// A road segment may have this class if there are [general access restrictions](https://wiki.openstreetmap.org/wiki/Key:access) or a [high-occupancy vehicle](https://wiki.openstreetmap.org/wiki/Key:hov) restriction.
+        /// </summary>
         Restricted = (1 << 2),
+        
+        /// <summary>
+        /// The road segment is a [freeway](https://wiki.openstreetmap.org/wiki/Tag:highway%3Dmotorway) or [freeway ramp](https://wiki.openstreetmap.org/wiki/Tag:highway%3Dmotorway_link).
+        /// It may be desirable to suppress the name of the freeway when giving instructions and give instructions at fixed distances before an exit (such as 1 mile or 1 kilometer ahead).
+         /// </summary>
         Motorway = (1 << 3),
-        Ferry = (1 << 4)
+        
+        /// <summary>
+        /// The user must travel this segment of the route by ferry.
+        /// The user should verify that the ferry is in operation. For driving and cycling directions, the user should also verify that his or her vehicle is permitted onboard the ferry. 
+        /// In general, the transport type of the step containing the road segment is also `TransportType.ferry`.
+        /// </summary>
+        Ferry = (1 << 4),
+        
+        /// <summary>
+        /// The user must travel this segment of the route through a [tunnel](https://wiki.openstreetmap.org/wiki/Key:tunnel).
+        /// </summary>
+        Tunnel = (1 << 5),
     }
 
     [Native]
