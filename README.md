@@ -44,3 +44,11 @@ Contact us if interested.
 
 Follow us for the latest updates<br>[![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=https://github.com/NAXAM/mapboxnavigation-ios-binding)
 [![Twitter Follow](https://img.shields.io/twitter/follow/naxamco.svg?style=social)](https://twitter.com/naxamco)
+
+# Build NuGet package
+
+- `carthage update --platform iOS`: Pulls in the native dependencies and builds them for iOS
+- `sh copy-frameworks.sh`: Copies the build output from `carthage` to a folder where the C# project will pull them from
+- Open the solution file, build in Release mode.
+- Update `libspec.nuget`, if needed
+- Run `nuget pack` to generate the NuGet Package
