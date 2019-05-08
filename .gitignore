@@ -39,6 +39,5 @@ Thumbs.db
 # dotCover
 *.dotCover
 
-Carthage
-Cartfile.*
+Carthage/
 UserPrefs.xml

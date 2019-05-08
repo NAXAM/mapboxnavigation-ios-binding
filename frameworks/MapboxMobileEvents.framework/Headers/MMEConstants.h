@@ -1,6 +1,8 @@
 #import <Foundation/Foundation.h>
 
 extern NSString * const MMEAPIClientBaseURL;
+extern NSString * const MMEAPIClientBaseChinaEventsURL;
+extern NSString * const MMEAPIClientBaseChinaAPIURL;
 extern NSString * const MMEAPIClientEventsPath;
 extern NSString * const MMEAPIClientHeaderFieldUserAgentKey;
 extern NSString * const MMEAPIClientHeaderFieldContentTypeKey;
@@ -26,6 +28,7 @@ extern NSString * const MMEEventTypeMapLoad;
 extern NSString * const MMEEventTypeMapTap;
 extern NSString * const MMEEventTypeMapDragEnd;
 extern NSString * const MMEEventTypeLocation;
+extern NSString * const MMEEventTypeVisit;
 extern NSString * const MMEEventTypeLocalDebug;
 
 // Gestures
@@ -39,6 +42,8 @@ extern NSString * const MMEEventGestureRotateStart;
 extern NSString * const MMEEventGesturePitchStart;
 
 // Event keys
+extern NSString * const MMEEventKeyArrivalDate;
+extern NSString * const MMEEventKeyDepartureDate;
 extern NSString * const MMEEventKeyLatitude;
 extern NSString * const MMEEventKeyLongitude;
 extern NSString * const MMEEventKeyZoomLevel;
@@ -64,6 +69,7 @@ extern NSString * const MMEEventSDKIdentifier;
 extern NSString * const MMEEventSDKVersion;
 extern NSString * const MMEEventKeyLocalDebugDescription;
 extern NSString * const MMENavigationEventPrefix;
+extern NSString * const MMEVisionEventPrefix;
 extern NSString * const MMEEventTypeNavigationDepart;
 extern NSString * const MMEEventTypeNavigationArrive;
 extern NSString * const MMEEventTypeNavigationCancel;
